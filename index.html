@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Форми відвідування</title>
+<style>
+  :root{
+    --bg:#0f1720; --panel:#16222e; --panel2:#101820; --text:#f4f7fb; --muted:#9aa8b6;
+    --accent:#7f1d1d; --accent2:#b91c1c; --line:#2a3a49; --ok:#22c55e; --bad:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(160deg,#071015,#182631);color:var(--text)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px}
+  h1{font-size:26px;margin:0 0 14px}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start}
+  .card{background:rgba(22,34,46,.96);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 12px 35px rgba(0,0,0,.28)}
+  label{display:block;font-weight:700;margin:12px 0 6px}
+  input,textarea,select{width:100%;background:#0d151d;color:var(--text);border:1px solid #334454;border-radius:10px;padding:11px 12px;font-size:15px;outline:none}
+  textarea{min-height:74px;resize:vertical}
+  input:focus,textarea:focus,select:focus{border-color:#64748b}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .doc{border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:12px;background:#121c26}
+  .doc-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .doc-title{font-weight:800}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg input{display:none}
+  .seg label{margin:0;font-weight:700;cursor:pointer;border:1px solid #405365;border-radius:999px;padding:8px 13px;background:#0d151d;color:#cbd5e1}
+  .seg input:checked + span{display:inline-block}
+  .pill{border:1px solid #405365;border-radius:999px;padding:8px 13px;background:#0d151d;color:#cbd5e1;cursor:pointer;user-select:none}
+  .pill.active.plus{background:rgba(34,197,94,.16);border-color:var(--ok);color:#dcfce7}
+  .pill.active.minus{background:rgba(239,68,68,.16);border-color:var(--bad);color:#fee2e2}
+  .pill.active.zero{background:rgba(148,163,184,.18);border-color:#94a3b8;color:#e2e8f0}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;color:white;background:var(--accent2)}
+  button.secondary{background:#334155} button.ghost{background:#0d151d;border:1px solid #405365}
+  .preview{font-size:25px;line-height:1.52;white-space:pre-wrap;background:#17222e;border-radius:14px;padding:18px;min-height:360px}
+  .hint{font-size:13px;color:var(--muted);margin-top:6px}
+  .list{margin-top:14px;display:grid;gap:10px}
+  .item{background:#0d151d;border:1px solid #334454;border-radius:12px;padding:12px;display:flex;justify-content:space-between;gap:10px}
+  .item b{display:block;margin-bottom:3px}.item small{color:#aebaca}.item button{padding:8px 10px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}.preview{font-size:22px}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Форми відвідування</h1>
+  <div class="grid">
+    <section class="card">
+      <div class="row">
+        <div><label>Підрозділ</label><input id="unit" placeholder="13 одшб"></div>
+        <div><label>Дата відвідування</label><input id="date" type="date"></div>
+      </div>
+      <div class="row">
+        <div><label>Місто</label><input id="city" placeholder="Дніпро"></div>
+        <div><label>Область</label><input id="region" placeholder="Дніпропетровська область"></div>
+      </div>
+      <label>ПІБ</label><input id="name" placeholder="Свиридов Дмитро Сергійович">
+      <label>Лікування</label><input id="treatment" placeholder="Центральна районна лікарня місто Дніпро">
+
+      <div id="docs"></div>
+
+      <label>Проблемні питання</label><textarea id="problems" placeholder="відсутні"></textarea>
+      <label>Нагородження</label><textarea id="awards" placeholder="Бригадна сумка (футболка, носки, плакетка, термокухоль, прапор)"></textarea>
+
+      <div class="actions">
+        <button onclick="saveRecord()">Зберегти</button>
+        <button class="secondary" onclick="copyPreview()">Скопіювати текст</button>
+        <button class="ghost" onclick="clearForm()">Очистити</button>
+      </div>
+      <div class="hint">Поля документів, де не вибрано + / - / 0, не показуються у готовій формі.</div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin-top:0">Попередній перегляд</h2>
+      <div id="preview" class="preview"></div>
+      <h2>Збережені форми</h2>
+      <div id="saved" class="list"></div>
+    </section>
+  </div>
+</div>
+<script>
+const docTypes = [
+  {key:'f100', label:'Форма 100', options:['+','-']},
+  {key:'d5', label:'Додаток 5', options:['+','0']},
+  {key:'ubd', label:'УБД', options:['+','-']},
+  {key:'f6', label:'Форма 6', options:['+','-']}
+];
+const $ = id => document.getElementById(id);
+const state = {docs:{}};
+
+function renderDocs(){
+  $('docs').innerHTML = docTypes.map(d=>`
+    <div class="doc">
+      <div class="doc-head">
+        <div class="doc-title">${d.label}</div>
+        <div class="seg">
+          ${d.options.map(o=>`<span class="pill ${o==='+'?'plus':o==='-'?'minus':'zero'}" data-doc="${d.key}" data-val="${o}">${o}</span>`).join('')}
+          <span class="pill" data-doc="${d.key}" data-val="">не показувати</span>
+        </div>
+      </div>
+      <input id="note_${d.key}" placeholder="Примітки до ${d.label}">
+    </div>`).join('');
+  document.querySelectorAll('.pill').forEach(p=>p.onclick=()=>{
+    state.docs[p.dataset.doc]=p.dataset.val;
+    document.querySelectorAll(`.pill[data-doc="${p.dataset.doc}"]`).forEach(x=>x.classList.remove('active'));
+    p.classList.add('active'); updatePreview();
+  });
+}
+function fmtDate(v){ if(!v) return ''; const [y,m,d]=v.split('-'); return `${d}.${m}.${y}`; }
+function line(label, val){ return val ? `${label}: ${val}` : ''; }
+function buildText(){
+  const top = [];
+  if($('unit').value.trim()) top.push($('unit').value.trim());
+  const visitParts = [fmtDate($('date').value), $('city').value.trim(), $('region').value.trim()].filter(Boolean).join(' ');
+  if(visitParts) top.push('Відвідування: ' + visitParts);
+  if($('name').value.trim()) top.push($('name').value.trim());
+  if($('treatment').value.trim()) top.push('Лікування: ' + $('treatment').value.trim());
+  docTypes.forEach(d=>{
+    const mark = state.docs[d.key];
+    if(mark){
+      const note = $(`note_${d.key}`).value.trim();
+      top.push(`${d.label} ${mark}${note ? ' — ' + note : ''}`);
+    }
+  });
+  top.push(line('Проблемні питання', $('problems').value.trim() || 'відсутні'));
+  top.push(line('Нагородження', $('awards').value.trim()));
+  return top.filter(Boolean).join('\n');
+}
+function updatePreview(){ $('preview').textContent = buildText(); }
+function collect(){
+  const obj = {unit:$('unit').value,date:$('date').value,city:$('city').value,region:$('region').value,name:$('name').value,treatment:$('treatment').value,problems:$('problems').value,awards:$('awards').value,docs:{...state.docs},notes:{}};
+  docTypes.forEach(d=>obj.notes[d.key]=$(`note_${d.key}`).value); return obj;
+}
+function fill(obj){
+  ['unit','date','city','region','name','treatment','problems','awards'].forEach(k=>$(k).value=obj[k]||'');
+  state.docs = obj.docs || {};
+  docTypes.forEach(d=>{$(`note_${d.key}`).value=(obj.notes||{})[d.key]||''; document.querySelectorAll(`.pill[data-doc="${d.key}"]`).forEach(p=>p.classList.toggle('active', p.dataset.val===(state.docs[d.key]||'')));});
+  updatePreview();
+}
+function saveRecord(){
+  const arr = JSON.parse(localStorage.forms_visit||'[]');
+  arr.unshift({id:Date.now(), data:collect(), text:buildText()});
+  localStorage.forms_visit = JSON.stringify(arr); renderSaved();
+}
+function renderSaved(){
+  const arr = JSON.parse(localStorage.forms_visit||'[]');
+  $('saved').innerHTML = arr.length ? arr.map(r=>`<div class="item"><div><b>${r.data.name||'Без ПІБ'}</b><small>${r.data.unit||''} ${fmtDate(r.data.date)||''}</small></div><div><button class="secondary" onclick="loadRecord(${r.id})">Відкрити</button> <button class="ghost" onclick="delRecord(${r.id})">×</button></div></div>`).join('') : '<div class="hint">Ще немає збережених форм</div>';
+}
+function loadRecord(id){ const r=JSON.parse(localStorage.forms_visit||'[]').find(x=>x.id===id); if(r) fill(r.data); }
+function delRecord(id){ localStorage.forms_visit=JSON.stringify(JSON.parse(localStorage.forms_visit||'[]').filter(x=>x.id!==id)); renderSaved(); }
+async function copyPreview(){ await navigator.clipboard.writeText(buildText()); alert('Текст скопійовано'); }
+function clearForm(){ document.querySelectorAll('input,textarea').forEach(i=>i.value=''); state.docs={}; document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); updatePreview(); }
+renderDocs(); ['unit','date','city','region','name','treatment','problems','awards'].forEach(id=>$(id).addEventListener('input',updatePreview));
+docTypes.forEach(d=>$(`note_${d.key}`).addEventListener('input',updatePreview));
+$('date').valueAsDate = new Date(); renderSaved(); updatePreview();
+</script>
+</body>
+</html>
