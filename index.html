@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Маршрут відвідування поранених — Київська область</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#132235;
+    --navy-2:#1c3350;
+    --paper:#f4f1e9;
+    --paper-2:#ebe6d8;
+    --ink:#1c2430;
+    --ink-soft:#4d5768;
+    --gold:#d8a943;
+    --gold-deep:#a97c22;
+    --wheat:#f0e3bd;
+    --line:#d8d0bb;
+    --alert:#8b3a3a;
+    --alert-bg:#f3e2df;
+    --good:#3c6e52;
+    --shadow: 0 10px 30px -12px rgba(19,34,53,0.25);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', Arial, sans-serif;
+    line-height:1.5;
+  }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:
+      radial-gradient(circle at 85% -10%, rgba(216,169,67,0.18), transparent 55%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:var(--paper);
+    padding:56px 24px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(216,169,67,0.06) 0 1px, transparent 1px 120px);
+    pointer-events:none;
+  }
+  .hero-inner{ max-width:920px; margin:0 auto; position:relative; }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12.5px;
+    color:var(--gold);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;}
+  h1{
+    font-family:'Source Serif 4', Georgia, serif;
+    font-weight:700;
+    font-size:clamp(28px, 4.2vw, 44px);
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    font-size:16px;
+    color:#cfd8e3;
+    max-width:640px;
+    margin-bottom:28px;
+  }
+  .startcard{
+    display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(216,169,67,0.35);
+    border-radius:14px;
+    padding:18px 22px;
+  }
+  .startcard .label{ font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--gold); font-family:'IBM Plex Mono',monospace;}
+  .startcard .value{ font-size:17px; font-weight:600; }
+  .startcard a{ color:var(--paper); text-decoration:none; border-bottom:1px dashed var(--gold); }
+  .startcard a:hover{ color:var(--gold); }
+  .stat-row{ display:flex; gap:28px; margin-top:26px; flex-wrap:wrap; }
+  .stat{ }
+  .stat .num{ font-family:'Source Serif 4', serif; font-size:30px; font-weight:700; color:var(--gold); line-height:1; }
+  .stat .lbl{ font-size:12.5px; color:#b9c3d1; margin-top:4px; }
+
+  /* ---------- MODE SWITCH ---------- */
+  .mode-bar{
+    position:sticky; top:0; z-index:60;
+    background:var(--navy-2);
+    border-bottom:1px solid rgba(216,169,67,0.35);
+  }
+  .mode-bar-inner{
+    max-width:920px; margin:0 auto;
+    padding:12px 20px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .mode-label{
+    font-family:'IBM Plex Mono',monospace; font-size:12px;
+    color:var(--gold); text-transform:uppercase; letter-spacing:.08em;
+    flex:0 0 auto;
+  }
+  .mode-switch{ display:flex; gap:8px; flex-wrap:wrap; }
+  .mode-btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13.5px; font-weight:600;
+    color:#cfd8e3;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:20px;
+    padding:8px 16px;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .mode-btn:hover{ background:rgba(216,169,67,0.15); color:#fff; }
+  .mode-btn.active{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:var(--navy);
+  }
+
+  .award-row{
+    padding-top:0; padding-bottom:12px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    margin-top:2px;
+  }
+  .award-btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13.5px; font-weight:600;
+    color:var(--navy);
+    background:var(--gold);
+    border:1px solid var(--gold);
+    border-radius:20px;
+    padding:8px 16px;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .award-btn[data-state="with"]{
+    background:#e9c869; border-color:#e9c869;
+  }
+  .award-btn[data-state="without"]{
+    background:#cfd8e3; border-color:#cfd8e3; color:var(--navy);
+  }
+  .award-btn:hover{ filter:brightness(1.05); }
+
+  /* ---------- NAV ---------- */
+  nav.zonenav{
+    position:sticky; top:49px; z-index:50;
+    background:rgba(244,241,233,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:10px 18px;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  nav.zonenav a{
+    display:inline-block;
+    font-size:13px;
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--ink-soft);
+    text-decoration:none;
+    padding:7px 13px;
+    margin-right:6px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  nav.zonenav a:hover, nav.zonenav a.active{
+    border-color:var(--gold-deep);
+    color:var(--navy);
+    background:var(--wheat);
+  }
+
+  /* ---------- MAIN ---------- */
+  main{ max-width:920px; margin:0 auto; padding:8px 20px 100px; }
+
+  .zone-section{ margin-top:52px; }
+  .zone-head{
+    display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+    border-bottom:2px solid var(--navy);
+    padding-bottom:10px; margin-bottom:22px;
+  }
+  .zone-head h2{
+    font-family:'Source Serif 4', serif;
+    font-size:23px; margin:0; color:var(--navy);
+  }
+  .zone-head .zone-meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px; color:var(--ink-soft);
+  }
+
+  .stop{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:20px 22px;
+    margin-bottom:16px;
+    box-shadow: var(--shadow);
+    position:relative;
+  }
+  .stop-top{
+    display:flex; align-items:flex-start; gap:16px; margin-bottom:6px;
+  }
+  .badge{
+    flex:0 0 auto;
+    width:38px; height:38px;
+    border-radius:50%;
+    background:var(--navy);
+    color:var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px;
+  }
+  .stop-addr-wrap{ flex:1 1 auto; min-width:0; }
+  .zone-chip{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+    color:var(--gold-deep);
+    background:var(--wheat);
+    border:1px solid var(--gold);
+    padding:2px 9px; border-radius:20px;
+    margin-bottom:6px;
+  }
+  .stop-addr{
+    font-family:'Source Serif 4', serif;
+    font-size:18px; font-weight:600;
+    color:var(--navy);
+    text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .stop-addr:hover{ color:var(--gold-deep); }
+  .stop-addr svg{ flex:0 0 auto; }
+  .count-pill{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    background:var(--wheat);
+    color:var(--gold-deep);
+    border:1px solid var(--gold);
+    padding:4px 10px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+
+  .people{ margin-top:14px; display:flex; flex-direction:column; gap:10px; }
+  .person{
+    border-top:1px solid var(--paper-2);
+    padding-top:12px;
+  }
+  .person-row{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  }
+  .person-name{ font-weight:600; font-size:15px; }
+  .person-tags{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft); display:flex; gap:14px; flex-wrap:wrap;}
+  .person-tags .amp-flag{ color:var(--alert); font-weight:600; }
+  .diag-btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:13px; font-weight:600;
+    color:var(--navy);
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:7px 14px;
+    cursor:pointer;
+    transition: background .15s ease, transform .05s ease;
+  }
+  .diag-btn:hover{ background:var(--wheat); }
+  .diag-btn:active{ transform:scale(0.97); }
+  .diag-btn[aria-expanded="true"]{ background:var(--navy); color:var(--paper); border-color:var(--navy);}
+
+  .diag-panel{
+    display:none;
+    margin-top:10px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold-deep);
+    border-radius:10px;
+    padding:14px 16px;
+    font-size:14px;
+  }
+  .diag-panel.open{ display:block; }
+  .diag-panel .row{ margin-bottom:8px; }
+  .diag-panel .row:last-child{ margin-bottom:0; }
+  .diag-panel .k{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-soft); margin-bottom:3px;
+  }
+  .amp-badge{
+    display:inline-block;
+    background:var(--alert-bg); color:var(--alert);
+    border:1px solid #d8b3ac;
+    font-family:'IBM Plex Mono',monospace; font-size:12px;
+    padding:3px 9px; border-radius:20px; font-weight:600;
+  }
+  .no-amp{
+    display:inline-block;
+    background:#e4ede7; color:var(--good);
+    border:1px solid #bdd7c6;
+    font-family:'IBM Plex Mono',monospace; font-size:12px;
+    padding:3px 9px; border-radius:20px; font-weight:600;
+  }
+
+  .empty-note{
+    font-size:13.5px; color:var(--ink-soft); font-style:italic; padding:6px 0 0;
+  }
+
+  footer{
+    max-width:920px; margin:0 auto; padding:20px 20px 60px;
+    font-size:13px; color:var(--ink-soft);
+    border-top:1px solid var(--line);
+  }
+  footer a{color:var(--gold-deep)}
+
+  .finish{
+    margin-top:52px;
+    text-align:center;
+    padding:26px;
+    border:2px dashed var(--gold-deep);
+    border-radius:16px;
+    background:var(--wheat);
+  }
+  .finish .badge{ margin:0 auto 10px; background:var(--gold-deep); color:var(--navy);}
+  .finish h3{ font-family:'Source Serif 4', serif; margin:0 0 6px; color:var(--navy); }
+
+  @media (max-width:600px){
+    header.hero{padding:40px 16px 30px;}
+    .stat-row{gap:18px;}
+    .stop{padding:16px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="dot"></span> Київська область · маршрутний лист</div>
+    <h1>Маршрут відвідування поранених побратимів</h1>
+    <p class="hero-sub">Усі точки Київської області з таблиці відвідувань, зібрані в маршрут: від старту — по зонах області — і назад. Оберіть режим маршруту вгорі — за зонами, спочатку Київ, або лише медичні заклади.</p>
+    <div class="startcard">
+      <div>
+        <div class="label">Старт / фініш</div>
+        <div class="value">📍 <a id="startlink" href="#" target="_blank" rel="noopener">вул. Василя Стуса, 1, Крюківщина</a></div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="num" id="statStops">–</div><div class="lbl">зупинок на маршруті</div></div>
+      <div class="stat"><div class="num" id="statPeople">–</div><div class="lbl">бійців для відвідування</div></div>
+      <div class="stat"><div class="num" id="statZones">–</div><div class="lbl">географічних зон</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="mode-bar">
+  <div class="mode-bar-inner">
+    <span class="mode-label">Режим маршруту:</span>
+    <div class="mode-switch" id="modeSwitch" role="tablist">
+      <button class="mode-btn active" data-mode="full" role="tab" aria-selected="true">Уся область</button>
+      <button class="mode-btn" data-mode="kyivfirst" role="tab" aria-selected="false">Спочатку Київ, потім область</button>
+      <button class="mode-btn" data-mode="kyivonly" role="tab" aria-selected="false">Тільки Київ</button>
+      <button class="mode-btn" data-mode="medonly" role="tab" aria-selected="false">Тільки медзаклади</button>
+      <button class="mode-btn" data-mode="kyivmed" role="tab" aria-selected="false">Тільки Київ + тільки медзаклади</button>
+    </div>
+  </div>
+  <div class="mode-bar-inner award-row">
+    <span class="mode-label">Нагородження (незалежно від режиму):</span>
+    <button class="award-btn" id="awardBtn" data-state="all">Усі бійці</button>
+  </div>
+</div>
+
+
+<nav class="zonenav" id="zoneNav"></nav>
+
+<main id="main"></main>
+
+<footer>
+  Маршрут побудовано за даними файлу «Відвідування_Поранених_02_07.xlsx» (лист «Київська область»), точки згруповано за однаковою адресою/закладом та впорядковано за географічними зонами області для ефективного об'їзду. Адреси клікабельні та відкривають Google Карти. Режим «Тільки медзаклади» показує лише лікарні, госпіталі, реабілітаційні та медичні центри — без домашніх адрес відпустки та адрес військових частин. Дані про 2 бійців із записом «Київська область», чия фактична адреса перебування вказана в іншому регіоні, до маршруту не включені.
+</footer>
+
+<script>
+window.__ROUTE_DATA_URL__ = null;
+</script>
+<script>const ROUTE_DATA = {"zones": ["Софіївська Борщагівка / Чайки (поруч зі стартом)", "Боярка", "Васильків", "Фастів / Глеваха", "Біла Церква", "Богуслав", "Зеленьки (Миронівський р-н, далекий південь)", "Козин / Обухівський р-н (південна околиця)", "Київ (місто)", "Бровари", "Бориспіль / схід області", "Яготин (найдальша східна точка)", "Вишгород", "Ірпінь / Буча / Гостомель"], "stops": [{"order": 1, "zone": "Софіївська Борщагівка / Чайки (поруч зі стартом)", "address": "Софіївська Борщагівка, вул. Павла Чубинського, 8В, кв. 51", "people": [{"pib": "ШУТОВ Андрій Володимирович", "unit": "1 ДШБ 2 ДШР", "date": "8 травня 2026", "tel": "976729624", "diagnoz": "ВТ(18.04.2026). ЗЧМТ. СГМ. АБТ з перфорацією барабанноі перепонки зліва. ВОСП мяких тканин грудноі клітки. ВОСП лівого стегна, лівоі гомілки. ВОСП лівого передпліччя та променево-запясного суглобу", "amputatsiya": "", "nagorody": "бригадна сумка, термокружка 95 ОДШБр, футболка 95 ОДШБр"}], "is_medical": false, "_orig_order": 1, "lat": 50.4008185, "lng": 30.3650767}, {"order": 2, "zone": "Софіївська Борщагівка / Чайки (поруч зі стартом)", "address": "Київська обл. Селище чайки, в/ч А4799", "people": [{"pib": "ЗВІЗДЕЦЬКИЙ Віктор Іванович", "unit": "2 ДШБ 4 ДШР", "date": "7 травня 2026", "tel": "0980116536\n0932473521", "diagnoz": "МВТ(09.11.2025) Акустична травма з перфорацією та крововиливом БП з обох сторін. \nНеповна травматична ампутація лівої нижньої кінцівки на рівні нижньої третини гомілки.\nТурнікетний синдром лівої гомілки на рівні верхньої третини. Множині ВОСП. м/т правої кисті , підключичної ділянки справа. Геморагічний шок.", "amputatsiya": "ампутація", "nagorody": "Вручено: Прапор 2 ДШБ, Атрибутика підрозділу 9"}], "is_medical": false, "_orig_order": 2, "lat": 50.4401629, "lng": 30.2879474}, {"order": 3, "zone": "Боярка", "address": "КНП “ЛІЛБМР” м.Боярка", "people": [{"pib": "ВАСИЛЕВСЬКИЙ Роман Вікторович", "unit": "САДН", "date": "9 травня 2026", "tel": "955745038", "diagnoz": "ВТ. АКБ без пошкодження барабанних перетинок. ЗЧМТ. СГМ. Вогнепальне осколкове поранення лівої стопи з травматичною ампутацією п'ятого пальця лівої стопи на рівні голівки п'ятої плюсневої кістки. Вогнепальний перелом головки четвертої плюсневої кістки та основи проксимальної фаланги четвертого пальця лівої стопи.", "amputatsiya": "", "nagorody": "Вручено: бригадна сумка, термокухоль 95 ОДШБр, футболка 95 ОДШБр."}], "is_medical": true, "_orig_order": 3, "lat": 50.317117, "lng": 30.298167}, {"order": 4, "zone": "Васильків", "address": "КНП «Васильківська багатопрофільна лікарня інтенсивного лікування» ВМР Київської обл.", "people": [{"pib": "РОТКО Олег Юрійович", "unit": "АЕМБ 2аемр", "date": "—", "tel": "509571745", "diagnoz": "ВТ (30.05.2026)АБТ без пошкодження барабанних перетинок. ЗЧМТ. СГМ. Множині ВОСП лівого стегна. Забій лівого колінного суглобу.", "amputatsiya": "", "nagorody": ""}], "is_medical": true, "_orig_order": 4, "lat": 50.2013782, "lng": 30.3124943}, {"order": 5, "zone": "Васильків", "address": "м. Васильків, вул. Родинна, 5, Київська обл.", "people": [{"pib": "Арапенко Олександр Павлович", "unit": "13 ОДШБ 3 ДШР", "date": "6 червня 2026р", "tel": "937514248", "diagnoz": "ВТ(01.06.26р.) АБТ з пошкодженням барабанних перетинок з обох сторін. ЗЧМТ. СГМ. параорбітальна гематома лівого ока. садно чола. Вогнепальне кульове дотичне поранення нижньої третини правого плеча з підшкірною гематомою правого плеча. Вогнепальне наскрізне поранення середньої третини правого передпліччя з дефектом м/т, травматична нейропатія ліктьового нерва.", "amputatsiya": "", "nagorody": ""}], "is_medical": false, "_orig_order": 5, "lat": 50.1738878, "lng": 30.3366063}, {"order": 6, "zone": "Васильків", "address": "Київська обл., м. Васильків, вул. Володимирська 64", "people": [{"pib": "ЩЕРБАК Вадим Олександрович", "unit": "2 ДШБ 6 ДШР", "date": "10 лютого 2026", "tel": "506009506", "diagnoz": "ВТ(04.02.2026). ЗЧМТ. АБТ. ВОСП м'яких тканин лівого стегна. Обмороження пальців обох стоп 1 ст", "amputatsiya": "", "nagorody": "медаль \"За поранення\" (легке)\nНаказ МОУ від 08.04.2026 № 399\n\nАтрибутика 2ДШБ (інформаційний буклет)"}], "is_medical": false, "_orig_order": 6, "lat": 50.1712881, "lng": 30.3268102}, {"order": 7, "zone": "Фастів / Глеваха", "address": "Київська обл Фастівський р-н смт Глеваха Садова 3", "people": [{"pib": "РУДЕНКО Дмитро Сергійович", "unit": "АЕМБ РВ", "date": "30/04/26", "tel": "638544934", "diagnoz": "МВТ(20.02.2026) закриье пошкодження КЗА лівого гомілковосткпневого суглобу з набряковим синдромом. ВТ(21.02.2026) дрібні МВОСП обличчя та шиї. ВОСП непроникаюче грудної клітки справа, ІІІ пальця правої кисті з дефектом м'яких тканин.", "amputatsiya": "травма тяжка", "nagorody": ""}], "is_medical": false, "_orig_order": 7, "lat": 50.2563461, "lng": 30.3012674}, {"order": 8, "zone": "Біла Церква", "address": "КНП БМР \"Білоцерківська міська лікарня\" м.Біла Церква", "people": [{"pib": "ЛАЗОРЕНКО Максим Семенович", "unit": "АЕМБ ісв", "date": "14 березня 2026", "tel": "936392745", "diagnoz": "Розрив медіального меніска", "amputatsiya": "", "nagorody": ""}, {"pib": "ХОМЕНКО Сергій Вікторович", "unit": "АЕМБ рвп", "date": "18 червня 2026", "tel": "501597226", "diagnoz": "ВТ(17.06.2026) АКБТ без перфорації барабанних перетинок. ЗЧМТ.СГМ. Дрібні ВОСП обох передпліч. ВОСП пр.кисті з вогнепальним внутрішньосуглобовим переломом головки проксимальної фаланги 3-п'ясної кістки. ВОДП м/т лобкової ділянки, прутня. ВОСП правої гомілки в с/3 з вогнепальним переломом кісток гомілки та масивним дефектом м/т. ВОСП лівої гомілки з вогнепальними переломами кісток гомілки в с/3 та дефектом м/т. Геморагічний шок 2 ст.", "amputatsiya": "", "nagorody": ""}, {"pib": "НЕСЕН Віталій Григорович", "unit": "РР", "date": "—", "tel": "937186899", "diagnoz": "ВТ(11.06.26) ВОСП лівого гомілко-ступневого суглобу з травматичною ампутацією н/3 лівої гомілки. ВОДП в/3 правої гомілки.", "amputatsiya": "ампутація", "nagorody": ""}], "is_medical": true, "_orig_order": 8, "lat": 49.8026392, "lng": 30.1229807}, {"order": 9, "zone": "Біла Церква", "address": "в/ч А3122  Київська обл. м. Біла Церква бульвар Олександрійський 109", "people": [{"pib": "ЯКОВЕНКО Денис Ігорович", "unit": "АЕМБ рбс", "date": "13 червня 2026", "tel": "934310709", "diagnoz": "ВТ (12.06.2026) ЗЧМТ. СГМ. АБТ з перфорацією обох барабанних перетинок. ВОДП м/т живота. Множинні дрібні ВОСП лівого стегна та гомілки.", "amputatsiya": "", "nagorody": ""}, {"pib": "ПОВШЕДНИЙ Андрій Михайлович", "unit": "АЕМБ 4 АЕМР", "date": "07/06/26", "tel": "987326711", "diagnoz": "Холодова травма. Обмороження пальців правої стопи І-ІІ ст..", "amputatsiya": "", "nagorody": "відзнака командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор 95 )"}, {"pib": "Сапронов Олексій Володимирович", "unit": "13 ОДШБ 3 ДШР", "date": "12 червня 2026р", "tel": "682159596", "diagnoz": "ВТ(12.06.2026) ЗЧМТ. СГМ. АКБТ без пошкоджень б/п. Дрібні ВОСП правого плеча, правої сідниці, правого стегна. Траншейні стопи", "amputatsiya": "", "nagorody": ""}, {"pib": "СУББОТА Павло Олександрович", "unit": "2 ДШБ 4 ДШР", "date": "25.06.2026 01.05.2026", "tel": "0639792078", "diagnoz": "ВТ(26.04.26) ЗЧМТ.Струс ГМ. АКБТ без порушення цілісності б/п..ВОСП стегна та гомілки зліва. ВОДП правої стопи з множинними переломами ІІ, ІІІ, ІV,  V плюсневих  кісток та IV, V проксимальних фаланг правої стопи.", "amputatsiya": "", "nagorody": "Атрибутика 95 ОДШБр (відзнака командира 95 ОДШБр \"Коїн золотий\" та сумка з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)\n\nАтрибутика 2 ДШБ (інформаційний буклет)"}, {"pib": "ХОЛІН Руслан Анатолійович", "unit": "РР", "date": "7 червня 2026", "tel": "661624179", "diagnoz": "ВТ. ЗЧМТ. АБТ. ВОСП I пальця правої кисті з вогнепальним багато уламковим переломом основної фаланги з дефектом кісткової тканини. Відмороження пальців правої кисті - IIст. ВОСП н/ф III пальця лівої кисті. Множинні дрібні ВОСП лівого стегна та обох гомілок.", "amputatsiya": "", "nagorody": "Вручили відзнаку командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 9, "lat": 49.8081846, "lng": 30.098299}, {"order": 10, "zone": "Біла Церква", "address": "м. Біла Церква вул. Павліченко, буд. 44, кв 22", "people": [{"pib": "ТРОХИМЕЦЬ Владислав Володимирович", "unit": "АЕМБ АБ", "date": "06/05/26", "tel": "933842688", "diagnoz": "ВТ (14.04.26) ЗЧМТ. СГМ. АКБТ з перфорацією б/п зліва. Множинні ВОДП обох нижніх кінцівок.", "amputatsiya": "травма тяжка", "nagorody": "прапор 95 ОДШПБр, відзнака Командира 95 ОДШПБр «Срібний коїн», термокухоль, футболка"}], "is_medical": false, "_orig_order": 10, "lat": 49.7911181, "lng": 30.1280144}, {"order": 11, "zone": "Біла Церква", "address": "КНП\"Білоцерківська ЦРЛ\"МВСР  Київська обл., село Озерна, вулиця Хмельницького Богдана, будинок 39", "people": [{"pib": "Мезенцев Богдан Вікторович", "unit": "13 ОДШБ 3 ДШР", "date": "1 червня 2026р", "tel": "688582887", "diagnoz": "ВТ(25.05.2026). АКБТ з перфорацією обох барабанних перетинок. ЗЧМТ. СГМ. ВОСП в/3 правого плеча. Множинні ВОСП м'яких тканин бокової стінки живота справа. Дрібний ВОСП правого стегна. ВОСП в/3 лівого стегна. Дрібний ВОСП лобкової ділянки. ВОСП правої кисті.", "amputatsiya": "", "nagorody": ""}], "is_medical": true, "_orig_order": 11, "lat": 49.6266573, "lng": 30.1276047}, {"order": 12, "zone": "Богуслав", "address": "КНП \"Богуславська ЦЛ\" Київська обл. м. Богуслав вул. Івана Франка 27", "people": [{"pib": "Самохвалов Денис Валентинович", "unit": "13 ОДШБ 2 ДШР", "date": "5 квітня 2026р", "tel": "0998167995 '0935672731", "diagnoz": "ВТ (01.04.2026) ЗЧМТ. СГМ. АКБТ з перфорацією обох барабанних перетинок. Множинні ВОСП обох сідниць. Множинні ВОСП обох стегон та обох гомілок. Множинні ВОСП лівоі стопи з вогнепальним переломом 5,4,3 плюсневої кістки. Вогнепальне осколкове проникаюче поранення в черевну порожнину зправа. FAST + , перитоніт . Геморагічний шок Іст. Травматичне відлучення 5 пальця на рівні основи основної фаланги.", "amputatsiya": "ампутація", "nagorody": ""}], "is_medical": true, "_orig_order": 12, "lat": 49.5367013, "lng": 30.8651763}, {"order": 13, "zone": "Зеленьки (Миронівський р-н, далекий південь)", "address": "у с. Зеленьки, вул. Центральна, 36", "people": [{"pib": "ВІРИЧ Сергій Петрович", "unit": "1 ДШБ МБ", "date": "20 травня 2026", "tel": "994107018", "diagnoz": "ВТ(20.05.2026).ЗЧМТ. СГМ. АБТ з перфорацією обох барабанних перетинок. Дрібні сторонні тіла пралвого ока. Цяткові ВОСПобличчя. ВОСП правого ліктьового суглобу. Проникаюче ВОСП правого колінного суглобу з дефектом м'яких тканин.", "amputatsiya": "", "nagorody": "Шеврон 1 ДШБ, футболка 1 ДШБ"}], "is_medical": false, "_orig_order": 13, "lat": 49.7498499, "lng": 30.9220973}, {"order": 14, "zone": "Козин / Обухівський р-н (південна околиця)", "address": "Київська обл. Обуховский район пгт. Козин вул. Садовая дом 33 кв 17.", "people": [{"pib": "Скляренко Павло  Євгенович", "unit": "13 ОДШБ 2 ДШР", "date": "21 травня 2026р", "tel": "974153772", "diagnoz": "ВТ(11.05.2026) ЗЧМТ. СГМ. АКБТ з перфорацією лівої барабанної перетинки. Множинні дрібні ВОСП обличчя, лівої верхньої кінцівки, обох сідниць, правої та лівої н/к.", "amputatsiya": "", "nagorody": ""}], "is_medical": false, "_orig_order": 14, "lat": 50.2313743, "lng": 30.6499282}, {"order": 15, "zone": "Київ (місто)", "address": "ДУ“ІТО НАМН України”м.Київ", "people": [{"pib": "АРТЮХ Сергій Володимирович", "unit": "АЕМБ МБ", "date": "05/05/26", "tel": "632804757", "diagnoz": "Наслідки МВТ (20.10.25)Задній вивих правого плечового суглобу", "amputatsiya": "травма тяжка", "nagorody": "відзнака Командира 95 ОДШПБр «Золотий коїн», термокухоль, футболка 95, та прапор 95 ОДШБр"}, {"pib": "ОСТРЕНКО Дмитро Анатолійович", "unit": "2 ДШБ, РВ", "date": "12 травня 2026", "tel": "666504805", "diagnoz": "ВТ(18.02.2026) ЗЧМТ.СГМ.АКБТ без пошкодження БП. ВОДП лівого стегна та гомілки. ВОСП правої п'ятки з дефектом м/тк і вогнепальним переломом правої п'яткової кістки. Обмороження правої стопи І ст.. Турнікет 18.02.2026 о 08.20 год (неефективний).", "amputatsiya": "", "nagorody": "Арибутика 2 ДШБ (інформаційний буклет, шеврон, плакетка, термокружка) \n\n Арибутика 95 ОДШБр (відзнака командира 95 ОДШБр \"Коїн срібний\", футболка, термокухоль, прапор)"}], "is_medical": true, "_orig_order": 15, "lat": 50.4515201, "lng": 30.4999479}, {"order": 16, "zone": "Київ (місто)", "address": "в/ч А4799 м Київ улиця Українського Відродження, будинок 3", "people": [{"pib": "САВЧЕНКО Сергій Олександрович", "unit": "АЕМБ 1 АЕМР", "date": "29/04/26", "tel": "959762415", "diagnoz": "Стан після МВТ(04.12.2025) Акубаротравма без порушення Б/П.Множинні ВОСП обох кистей, лівої сідниці, обох нижніх кінцівок з дефектом м'яких тканин і вогнепальним переломом лівої малогомілкової кістки", "amputatsiya": "ліва нижня кінцівка на рівні лівої гомілки", "nagorody": "Коїн 95 ОДШБр; \nпрапор АЕМБ"}, {"pib": "Царик Василь Михайлович", "unit": "13 ОДШБ 2 ДШР", "date": "16 червня 2026р", "tel": "672922144", "diagnoz": "ВЛК: Наслідки МВТ (09.06.2025) з ВОСП лівої гомілки з вогнепальними багатоуламковими переломами обох кісток в в/3 та масивним дефектом м'яких тканин, ускладнених турнікетним синдромом з розвитком гострої критичної незворотньої ішемії лівої нижньої кінцівки, лікованих оперативно (10.06.2025 - відкрита фасціотомія лівої гомілки, ампутації лівої нижньої кінцівки на рівні верхньої третини стегна, етапні хірургічні обробки з формуванням кукси лівого стегна) у вигляді відсутності лівої нижньої кінцівки на рівні верхньої третини стегна з фантомно-больовим синдромом при тимчасовому порушенні функцій.\n\n\nВОСП (09.06.2025) лівої гомілки з відкритим переломом кісток лівої гомілки. Турнікетний синдром лівої нижньої кінцівки більше 15 годин Стан після ампутаціі лівої н-кінцівки на рівні в 3стегна", "amputatsiya": "ампутація", "nagorody": "відзнака Командира 95 ОДШПБр «Золотий коїн», прапор 95 ОДШПБр, термокухоль, футболка."}, {"pib": "КРОТЕНКО Вячеслав Олександрович", "unit": "2 ДШБ 5 ДШР", "date": "6 червня 2026", "tel": "672786269", "diagnoz": "ВТ(04.12.25) ЗЧМТ.СГМ. АКб без пошкодження б/п . ВОСП правого колінного суглоба з вогнепальним переломом надколінника та частковим пошкодженням надколінника . Гемартроз. Стороннє правого ока ?", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ ( плакетка)\n\nАтрибутика 95 ОДШБ (відзнака Командира 95 ОДШПБр «Золотий коїн», сумка, термокухоль, футболка, прапор)"}], "is_medical": false, "_orig_order": 16, "lat": 50.4404869, "lng": 30.2795785}, {"order": 17, "zone": "Київ (місто)", "address": "КНП «Свято-Михайлівська клінічна лікарня м. Києва» : 01601, м. Київ, Печерський район, вулиця Шовковична, будинок 39/1", "people": [{"pib": "ОХРЕМЧУК Микола Васильович", "unit": "АЕМБ 1аемр", "date": "24 червня 2026", "tel": "987022472", "diagnoz": "ВТ(14.06.2026) АКБТ з перфорацією обох барабанних перетинок.Міаз лівого зовнішнього слухового ходу. ЗЧМТ.СГМ.Інікована ВОСП тім'яної ділянки голови зліва. Міаз тім'яної ділянки голови зліва. Інфіковані ВОСП м/т грудної клітки по задній поверхні.Підшкірна емфізема обох надключичних ділянок та передньої поверхні грудної клітки справа. Інфіковані ВОСП лівого передпліччя та кисті з вогнепальним багатоуламковим переломом ліктьової кістки в н/3. Флегмона лівої кисті та передпліччя. Стан після укусу кліща. Постгеморагічна анемія. Сепсис.", "amputatsiya": "", "nagorody": ""}, {"pib": "МЕНЖЕГА Владислав Олегович", "unit": "2 ДШБ РВ", "date": "13 травня 2026", "tel": "(093) 955 58 11", "diagnoz": "ВТ(07.04.26)ЗЧМТ.СГМ.АБТ без перфорації б/п. ВКСП ділянки лівого колінного суглобу(видалено)", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (інформаційний буклет)"}], "is_medical": true, "_orig_order": 18, "lat": 50.4393693, "lng": 30.5270667}, {"order": 18, "zone": "Київ (місто)", "address": "м.Київ вул.Гната Юри 3А кв74", "people": [{"pib": "ПЕТРОВЕЦЬ Анатолій Михайлович", "unit": "АЕМБ АБ", "date": "13/04/26", "tel": "961315674", "diagnoz": "ВТ(12.04.2026) АКБТ без перфорації барабанних перетинок. Забій м'яких тканин правого колінного суглобу та правої гомілки. Гемартроз правого колінного суглобу. Цефалгічний синдром.", "amputatsiya": "травма тяжка", "nagorody": ""}], "is_medical": false, "_orig_order": 19, "lat": 50.4351371, "lng": 30.3842001}, {"order": 19, "zone": "Київ (місто)", "address": "м.Київ вул.Совська буд 13", "people": [{"pib": "НЕВЕЧЕРА Ігор Вікторович", "unit": "АЕМБ 4 АЕМР", "date": "09/06/26", "tel": "965730231", "diagnoz": "ВТ(30.01.26) ЗЧМТ. АБТ. Вогнепальна субтотальна ампутація правого гомілкового суглоба. Посттурнікетний синдром", "amputatsiya": "Ампутація правої гомілки", "nagorody": "Відзнака Командира АЕМБ \"Золотий коїн\"; прапор АЕМБ відзнака командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 20, "lat": 50.3968305, "lng": 30.4572279}, {"order": 20, "zone": "Київ (місто)", "address": "КНП \"КМКЛ №8\", м. Київ", "people": [{"pib": "МИЦЮРА Сергій Володимирович", "unit": "АЕМБ 2 АЕМР", "date": "07/05/26", "tel": "635161615", "diagnoz": "стан після МВТ (24.12.25) Органічне ураження головного мозку. Церебрастенічний синдром", "amputatsiya": "травма тяжка", "nagorody": "термокружка, футболка."}, {"pib": "ОПАНАСЕНКО Андрій Леонідович", "unit": "1 ДШБ 3 ДШР", "date": "24 квітня 2026", "tel": "674535723", "diagnoz": "Посттравматична невропатія правого ліктьового та серединного нервів внаслідок ВОСП (24.03.2026) м’яких тканин правого передпліччя", "amputatsiya": "", "nagorody": ""}], "is_medical": true, "_orig_order": 21, "lat": 50.5234634, "lng": 30.4637498}, {"order": 21, "zone": "Київ (місто)", "address": "м Київ, Булаховського 36 кв. 250", "people": [{"pib": "МАРТИНЕНКО Іван Анатолійович", "unit": "АЕМБ РВ", "date": "07/05/26", "tel": "681364515", "diagnoz": "Вогнепальне наскрізне поранення правого плеча(18.02.2026) з дефектом м'яких тканин", "amputatsiya": "травма тяжка", "nagorody": "Відзнака МОУ \"Хрест ДШВ\";прапор 95 ОДШПБр відзнака Командира 95 ОДШПБр «Срібний коїн»"}], "is_medical": false, "_orig_order": 22, "lat": 50.4684847, "lng": 30.3341468}, {"order": 22, "zone": "Київ (місто)", "address": "КНП «Медичний центр реабілітації та поліативної допомоги» м. Київ, вул. Федора Максименка,26", "people": [{"pib": "ОЛІШКЕВИЧ Олександр Павлович", "unit": "АЕМБ 3 АЕМР", "date": "28/04/26", "tel": "961960666", "diagnoz": "ВТ(14.03.2026) ЗЧМТ.СГМ.АКБТ з пошкодженням правої БП. ВОСП обличчя. Параорбітальна гематома лівого ока. Контузія лівого ока. Перелом лівої виличної кістки. ВОСП стопи зліва з масивним дефектом м/тк та вогнепальним переломом основної фаланги І п.,І,ІІ, та ІІІ плесневих кісток. Тривале стояння турнікету в н/3 лівої гомілки? (зі слів пораненого близько 8 годин, знятий побратимом)", "amputatsiya": "", "nagorody": "прапор АЕМБ та Відзнака Командира АЕМБ «Золотий коїн»"}, {"pib": "Ковальчук Андрій Олександрович", "unit": "бБпС", "date": "31 березня 2026", "tel": "096-188-72-12", "diagnoz": "ВТ(23.12.25) АБТ ЗЧМТ. Множинні ВОСП грудної клітки, поперекової ділянки. ВОСП м'яких тканин правової сідниці, стегна та гомілки. ВОСП м'яких тканин лівої сідниці, стегна та гомілки. ВОСП м'яких тканин правого передпліччя. Гем шок І. Гемоперитонеум зліва? Гематома лівого заочеревинного простору?", "amputatsiya": "", "nagorody": "прапор батальйону"}, {"pib": "ЗАГРИЗЕНКО Микола Сергійович", "unit": "2 ДШБ 6 ДШР", "date": "4 червня 2026", "tel": "0636732625, 0998381944", "diagnoz": "ВТ (2.11.25) ЗЧМТ. СГМ? Інфіковані ВОСП медіальної поверхні правої стопи з гематомою. Акустична травма з перфорацією б/п з обох сторін", "amputatsiya": "", "nagorody": "Атрибутика 2ДШБ (коїн, плакетка, шеврон, інформаційний буклет)\n\nАтрибутика 95 ОДШБр (прапор 95 ОДШПБр, відзнака Командира 95 ОДШПБр «Золотий коїн», термокухоль, футболка)"}, {"pib": "ПАЛІЙЧУК Олександр Володимирович", "unit": "РР", "date": "—", "tel": "982493412", "diagnoz": "МВТ (10.06.26) ВОСП правої стопи з дефектом м'яких тканин.", "amputatsiya": "", "nagorody": ""}], "is_medical": true, "_orig_order": 23, "lat": 50.5337018, "lng": 30.3586971}, {"order": 23, "zone": "Київ (місто)", "address": "м. Київ, пр. Г. Гонгадзе 9, кв. 272.", "people": [{"pib": "ПАСЮК Віталій Віталійович", "unit": "АЕМБ 4аемр", "date": "14/05/26", "tel": "968064819", "diagnoz": "ВТ(07.05.26) ЗЧМТ.СГМ.АБТ без перфорації б/п. ВОДП нижньої щелепи справа. Множинні ВОСП правого плеча та правого передпліччя. ВОСП м/т грудної клітки справа. Дрібні ВОСП правого стегна та правої гомілки.", "amputatsiya": "", "nagorody": ""}], "is_medical": false, "_orig_order": 25, "lat": 50.511416, "lng": 30.4084094}, {"order": 24, "zone": "Київ (місто)", "address": "м. Київ вул. Трактористів 2/6", "people": [{"pib": "ТОВАРУШКІН Семен Сергійович", "unit": "АЕМБ РБС", "date": "13/04/26", "tel": "972293007", "diagnoz": "ВТ(11.04.2026) ЗЧМТ. СГМ. АКБТ без пошкодження барабанних перетинок. Дрібні ВОСП обличчя. ВОСП в/3 правого стегна та правої сідничної ділянки з нейропатією правого сідничного нерва. Дрібні ВОСП лівої гомілки. ГШ I ст.", "amputatsiya": "травма тяжка", "nagorody": ""}], "is_medical": false, "_orig_order": 26, "lat": 50.4405518, "lng": 30.6520657}, {"order": 25, "zone": "Київ (місто)", "address": "м. Київ вул. Ревуцького 116 кв 53.", "people": [{"pib": "КВАШУК Роман Сергійович", "unit": "АЕМБ аб", "date": "11/05/26", "tel": "668489389", "diagnoz": "ВТ (11.05.2026). ЗЧМТ. СГМ. АБТ. ВОДП правого ліктьового суглобу. ВОСП лівої кисті з вогнепальним переломом дистальної фаланги IV пальця лівої кисті. Пошкодження КЗА лівого гомілковоступневого суглобу. Псоріаз поширений, папуло-бляшкова форма. Стадія загострення.", "amputatsiya": "", "nagorody": ""}], "is_medical": false, "_orig_order": 27, "lat": 50.3936469, "lng": 30.6535469}, {"order": 26, "zone": "Київ (місто)", "address": "КНП ПІДПРИЄМСТВО Київської обласної ради Київська обласна клінічна лікарня, вул. Загорівська (колишня Багговутівська), 1, м. Київ", "people": [{"pib": "ПІСКУН Олександр Валерійович", "unit": "АЕМБ аб", "date": "25 червня 2026", "tel": "0 67 950 8659", "diagnoz": "Забій поперекового відділу хребта. Компресійно-уламковий перелом L1 ll ст.", "amputatsiya": "", "nagorody": "відзнака командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": true, "_orig_order": 28, "lat": 50.4727686, "lng": 30.4673012}, {"order": 27, "zone": "Київ (місто)", "address": "м.Київ вул.Мрії ,б,16,кв 27\\4", "people": [{"pib": "Богуцький Микола Анатолійович", "unit": "13 ОДШБ 1 ДШР", "date": "5 травня 2026р", "tel": "950391880", "diagnoz": "вогнепальне кульове поранення 15.06.25р. лівої гомілки з дефектом м'яких тканин.Стан після вогнепального кульового поранення(15.06.2025) мяких тканин лівої гомілки,з дефектом мяких тканин, лікованого оперативно (3.07-10.07.2025) аутопластикою дефекту,суральним клаптем,з больовим синдромом при  тимчасовому порушенні функції.", "amputatsiya": "", "nagorody": "Вручили бригадний пакунок (термокружка, футболка, прапор)"}], "is_medical": false, "_orig_order": 29, "lat": 50.4749644, "lng": 30.396222}, {"order": 28, "zone": "Київ (місто)", "address": "м. Київ", "people": [{"pib": "Іванов Василь Іванович", "unit": "13 ОДШБ 2 ДШР", "date": "5 квітня 2026р", "tel": "956492687", "diagnoz": "ВТ(22.03.2026) ЗЧМТ. СГМ. АКБТ без пошкодження цілісності б/п.  ВОСП 2-го, 3-го, 4-го пальців правої кисті, з вогнепальним переломом 2-го, 3-го, 4-го пальців з дефектом мʼяких тканин. ВОСП лівого плеча. ВОСП ділянки лівого променевого запʼястного суглобу. ВОСП лівого надпліччя.", "amputatsiya": "", "nagorody": ""}], "is_medical": false, "_orig_order": 30, "lat": 50.4508102, "lng": 30.5229413}, {"order": 29, "zone": "Київ (місто)", "address": "м.Київ, вул. Празька 3, кв.89", "people": [{"pib": "Захарченко Владислав Олександрович", "unit": "13 ОДШБ ІСВ", "date": "16 червня 2026р", "tel": "950125123", "diagnoz": "ВТ(21.04.2026). ЗЧМТ. АБТ. ВОСП лівого плеча з переломом лівоі плечової кістки.", "amputatsiya": "", "nagorody": "відзнака Командира 95 ОДШПБр «Золотий коїн», прапор 95 ОДШПБр, термокухоль, футболка."}], "is_medical": false, "_orig_order": 31, "lat": 50.4425423, "lng": 30.6294878}, {"order": 30, "zone": "Київ (місто)", "address": "\"Інституту нейрохірургії ім. акад. А.П.Рамаданова НАМН України\" м. Київ вул. Платона Майбороди 32", "people": [{"pib": "Прусс Віталій Михайлович", "unit": "13 ОДШБ 1 ДШР", "date": "16 червня 2026р", "tel": "0939763995   0689493549", "diagnoz": "ВТ(26.08.2025) ЗЧМТ АКБ. Множинні ВОСП лівоі гомілки з переломом кісток лівоі гомілки? Забій грудної клітки справа.Стан після мінно-вибухової травми (26.08.2025) множинних вогнепалтних осколкових пораненнь лівої гомілки та лівої стопи ліковані оперативно: 29.08.2025-етапна хірургічна обробка ран лівоїстопи та гомілки,консолідуючий багатоуламковий вогнепальний перелом на межі середньої та нижньої третини лівої мологомілкової кісти з незначним зміщенням кісткових уламків з тимчасовим порушенням функції;закритої тупої травми грудної клітини ,консолідуючого  перелому 7 ребра праворуч по середньоаксиллярній ліній з тимчасовим порушенням функції.закритої черепно-мозкової травми ,струсу головного мозку у вигляді астеновегетативного синдрому.", "amputatsiya": "", "nagorody": ""}, {"pib": "СОВА Кирило Володимирович", "unit": "1 ДШБ РБС", "date": "7 травня 2026", "tel": "669758889", "diagnoz": "ВТ (06.05.2026). ЗЧМТ. СГМ. АКБ без порушення цілісності барабанних перетинок. ВОДП скроневої ділянки справа. ВОДП правої надбрівної дуги. Дрібні ВОСП попереку та сідниць.", "amputatsiya": "", "nagorody": "шеврон 1 ДШБ, футболка 1 ДШБ"}, {"pib": "Іванчук Євген Олексійович", "unit": "1 ДШБ 2 ДШР", "date": "—", "tel": "", "diagnoz": "Посттравматична невропатія правого в/гомілкового нерва", "amputatsiya": "", "nagorody": ""}, {"pib": "БОЙЧАС Андрій Олександрович", "unit": "2 ДШБ ІСВ", "date": "20.06.2026 \n11.05.2026", "tel": "684439862", "diagnoz": "ВТ(10.05.26) ЗЧМТ.СГМ.АБТ без пошкоджень б/п. ВОСП с/3 лівої гомілки", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (інформаційний буклет, плакетка,Відзнака командира батальйону, кращій оператор БПЛА зі скидом за лютий 2026 )"}], "is_medical": true, "_orig_order": 32, "lat": 50.46734, "lng": 30.479387}, {"order": 31, "zone": "Київ (місто)", "address": "м. Київ, м. Київ вул. Ушинського 23", "people": [{"pib": "Сулейманов Ніджат Самед Огли", "unit": "13 ОДШБ рБпС", "date": "8 травня 2026р", "tel": "991676358", "diagnoz": "ВТ(20.03.2026). АБТ. Наскрізне ВОП ділянки правого колінного суглобу.", "amputatsiya": "", "nagorody": "бригадна сумка, термокружка, футболка"}], "is_medical": false, "_orig_order": 33, "lat": 50.4264066, "lng": 30.444244}, {"order": 32, "zone": "Київ (місто)", "address": "м. Київ, вул.Оноре де Бальзака 103 кв. 93", "people": [{"pib": "Мазниченко Олександр Олександрович", "unit": "13 ОДШБ 2 ДШР", "date": "4 червня 2026р", "tel": "666338089", "diagnoz": "ВТ(02.03.2026) ЗЧМТ. СГМ. АКБТ. Опік обличчя ІІ-ІІІ ст.. Опік волосяної частини голови ІІ-ІІІ ст.. Опік кистей рук ІІ ст.. 6% поверхні тіла. Опік дихальних шляхів. ДН0 ст", "amputatsiya": "", "nagorody": "відзнаку командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 34, "lat": 50.5323016, "lng": 30.6104586}, {"order": 33, "zone": "Київ (місто)", "address": "м. Київ, вул. Тулузи 16, кв. 232", "people": [{"pib": "Галузинський Степан Дмитрович", "unit": "13 ОДШБ 1 ДШР", "date": "18 червня 2026р", "tel": "759683522", "diagnoz": "ВТ(05.05.2026) ЗЧМТ. СГМ. АКБ без порушення цілісності б/п. Множині дрібні ВОСП обох верхніх кінцівок з вогнепальним переломом лівої променевої кістки? Множині дрібні ВОСП обох сідниць. Дрібні ВОСП обох стегон. Множинні дрібні ВОСП лівої гомілки.", "amputatsiya": "", "nagorody": "прапор 95 ОДШПБр, відзнака Командира 95 ОДШПБр «Золотий коїн»"}], "is_medical": false, "_orig_order": 35, "lat": 50.4310153, "lng": 30.3739021}, {"order": 34, "zone": "Київ (місто)", "address": "м. Київ, вул. Литвинського", "people": [{"pib": "Відякін Дмитро Вікторович", "unit": "13 ОДШБ 3 ДШР", "date": "9 червня 2026р", "tel": "686283538", "diagnoz": "ВЛК: Опис діагнозу: Відсутність лівої нижньої кінцівки після МВТ (10.10.2025): ВОСП м'яких тканин правої гомілки та стови; ВОСП лівої нижньої кінцівки з травматичною ампутацією на рівні нижньої третини гомілки, компартмент синдромому лівої гомілки та операцій: (21.10.2025 - ситуативна ампутація лівої нижньої кінцівки на рівні верхньої третини гомілки, фасціотомія, некректомія, дебридмент; 25.10.2025 - ПОХО, реампутація кісток лівої гомілки з приводу інфекції ампутаційної кукси, монтаж ѴАС-системи; 28.10.2025 - демонтаж ѴАС-системи, ревізія, ПоХО рани кукси верхньої третини лівої гомілки, ушивання, етапні хірургічні обробки ран) у вигляді незміцнілих рубців шкіри, ампутаційної кукси лівої нижньої кінцівки на рівні верхньої третини гомілки .\n\nВТ(10.10.2025). ЗЧМТ. АКБ. Множинні ВОСП м/тк правої гомілки та стопи. Множинні ВОСП лівої гомілки. Травматична ампутація на рівні н/3 лівої гомілки.", "amputatsiya": "ампутація", "nagorody": "відзнаку командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 37, "lat": 50.4249041, "lng": 30.6585337}, {"order": 35, "zone": "Київ (місто)", "address": "м.Київ вул.Гегоргія ганаз 9", "people": [{"pib": "Шимко Віталій Сергійович", "unit": "13 ОДШБ 3 ДШР", "date": "21 травня 2026р", "tel": "0937738470     0972638880", "diagnoz": "(24.06.25) АКБ без порушення цілості барабанних перетинок. ЗЧМТ.СГМ.ВОСП правої стопи з масивним дефектом тканин правої стопи. вогнепальні переломи кісток правої стопи. Наслідки вибухової травми(24.06.2025) у вигляді травматичної ампутації на рівні середньої третини правої гомілки , сформованої ампутаційної кукси, зміцнілих рубців правої гомілки з порушенням функції правої нижньої кінцівки.", "amputatsiya": "ампутація", "nagorody": ""}], "is_medical": false, "_orig_order": 38, "lat": 50.511416, "lng": 30.4084094}, {"order": 36, "zone": "Київ (місто)", "address": "м. Київ, вул. Булаховського 30, кв. 39", "people": [{"pib": "Грищенко Олексій Сергійович", "unit": "13 ОДШБ 1 ДШР", "date": "15 червня 2026р", "tel": "'0931514844\n0936384959", "diagnoz": "ВЛК: Стан після ВП(24.02.2026) травматичного відчленування частини правої стопи. (25.02.2026) у вигляді кукси правої нижньої кінцівки на рівні середньої третини гомілки.\n\nВТ(24.02.2026) ЗЧМТ. СГМ. АКБТ без пошкодження БП. ВОСП лівої гомілки. ВОСП правої гомілки з травматичною частковою ампутацією правої стопи. Накладено турнікет в н/3 правої гомілки 24.02.2026 о  09.00 год. Турнікетний синдром.", "amputatsiya": "ампутація", "nagorody": "бригадна сумка, футболка, термос, прапор 95 ОДШПБр\nНагороджено: відзнака Командира 95 ОДШПБр «Срібний коїн»"}], "is_medical": false, "_orig_order": 39, "lat": 50.4711876, "lng": 30.3350018}, {"order": 37, "zone": "Київ (місто)", "address": "м. Київ, Героїв Маріуполя, 3, кв. 85", "people": [{"pib": "Храмов Юрій Ігорович", "unit": "13 ОДШБ 3 ДШР", "date": "9 червня 2026р", "tel": "0507392089, 0633934734", "diagnoz": "ВТ(04.01.26) АБТ без пошкоджень б/п. ЗЧМТ.СГМ. Дрібні ВОДП лівої щоки. ВОДП в/3 лівого передпліччя. ВОСП калитки та статевого члена. Множинні ВОСП обох стегон. Множинні ВОСП правої та лівої гомілки з вогнепальними переломами обох кісток правої та лівої гомілки.", "amputatsiya": "ампутація", "nagorody": "відзнаку командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 40, "lat": 50.3801579, "lng": 30.4552277}, {"order": 38, "zone": "Київ (місто)", "address": "КНП \"КМКЛ ШМД\", м. Київ, вул. Братиславська, 3", "people": [{"pib": "СТАСЬКО Станіслав Миколайович", "unit": "1 ДШБ 2 ДШР", "date": "5 червня 2026", "tel": "934543002", "diagnoz": "ВТ(03.02.26), АБТ, ЗЧМТ, ВОСП лівого плеча з вогнепальним переломом с/3 плечової кістки, вираженим дефектом м'яких тканин плеча, ВОСП лівої кисті.", "amputatsiya": "", "nagorody": "Вручено шеврон 1 ДШБ, відзнака командира 95 ОДШБр \"Золотий коїн\" та сумка з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": true, "_orig_order": 42, "lat": 50.4729099, "lng": 30.6195236}, {"order": 39, "zone": "Київ (місто)", "address": "м. Київ, вул. Василя Касіяна, 2, кв. 50", "people": [{"pib": "МАРКОВ Олег Борисович", "unit": "1 ДШБ 4 ДШР", "date": "4 червня 2026", "tel": "938571005", "diagnoz": "ВТ(25.04.2026). ЗЧМТ. СГМ. АБТ. МВОСП грудної клітки зліва. МВОСП поперековоі ділянки зліва МВОСП лівої сідниці. Дрібні ВОСП обох стоп.", "amputatsiya": "", "nagorody": "шеврон 1 ДШБ, відзнака командира 95 ОДШБр \"Золотий коїн\" та сумка з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 43, "lat": 50.3785505, "lng": 30.4554161}, {"order": 40, "zone": "Київ (місто)", "address": "у м. Київ, вул. Бударіна, 9, кв. 45", "people": [{"pib": "ВАСИЛЕНКО Сергій Сергійович", "unit": "1 ДШБ 4 ДШР", "date": "23 квітня 2026", "tel": "951204409", "diagnoz": "Постравматична невропатія правого ліктьового та серединних нервів", "amputatsiya": "", "nagorody": "шеврон 1 ДШБ"}], "is_medical": false, "_orig_order": 45, "lat": 50.4249041, "lng": 30.6585337}, {"order": 41, "zone": "Київ (місто)", "address": "Київська обл., м. Київ вул Срібнокільська 1/2 кв 89", "people": [{"pib": "Кобко Сергій Михайлович", "unit": "2 ДШБ, 5 ДШР", "date": "19 червня 2026", "tel": "0500411069", "diagnoz": "ВТ(17.06.2026)АКБТ без пошкодження барабанних перетинок. ЗЧМТ.СГМ. ВОСП надлобкової ділянки. Гемоперитонеум.", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (пакунок зі смаколиками та засобами гігієни, інформаційний буклет)"}], "is_medical": false, "_orig_order": 46, "lat": 50.4022329, "lng": 30.6299978}, {"order": 42, "zone": "Київ (місто)", "address": "Київська обл., м.Київ, вул. Данила Щербаківського 57г, кв 35", "people": [{"pib": "ПОДКУР Павло Володимирович", "unit": "2 ДШБ ЗРВ", "date": "7 квітня 2026", "tel": "0937171983", "diagnoz": "ВТ(06.04.2026) ЗЧМТ. СГМ. АКБТ з перфорацією правої барабанної перетинки. ВОСП в/3 правого плеча з наявністю стороннього тіла. Дрібні ВОСП  в/3 правої гомілки.", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (пакунок)"}], "is_medical": false, "_orig_order": 48, "lat": 50.4773714, "lng": 30.4052016}, {"order": 43, "zone": "Київ (місто)", "address": "Київська обл., м. Київ, ДЗ \"Центр психічного здоров'я та реабілітації ветеранів \"Лісова поляна»", "people": [{"pib": "ГРАНОВСЬКИЙ Валерій Петрович", "unit": "2 ДШБ МБ", "date": "22 квітня 2026", "tel": "0684087493", "diagnoz": "Посттромботичний синдром", "amputatsiya": "", "nagorody": "Звільнений з полону 11.04.2026. \nВручено: пакунок полоненого"}], "is_medical": true, "_orig_order": 50, "lat": 50.5495871, "lng": 30.3641758}, {"order": 44, "zone": "Київ (місто)", "address": "Київська обл, м. Київ, вул Мрії  18", "people": [{"pib": "ХУГОЛЬ Сергій Олександрович", "unit": "2 ДШБ РБС", "date": "18 травня 2026", "tel": "0636334246", "diagnoz": "ВТ(17.05.2026). АБТ. Проникаюче ВОСП лобкової ділянки? Пошкодження сечового міхура? ВОСП лівого плеча. Цяткові ВОСП обох нижніх кінцівок.", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (інформаційний буклет)"}], "is_medical": false, "_orig_order": 51, "lat": 50.4593042, "lng": 30.3969282}, {"order": 45, "zone": "Київ (місто)", "address": "КНП “КМКЛ №4” м.Київ", "people": [{"pib": "МОРОЗ Володимир Анатолійович", "unit": "ВКАВ БАР", "date": "5 травня 2026", "tel": "934538825", "diagnoz": "ВТ(16.08.2025). ЗЧМТ. АКБ. ВОСП м/тк обох стегон. Вогнепальна ампутація на рівні н/3 лівої гомілки. Дрібні ВОСП статевих органів. Дрібні ВОСП правого передпліччя. Дрібні ВОСП правого вуха та лівої половини обличчя", "amputatsiya": "ампутація", "nagorody": "ПІДРОЗДІЛ ПОДАСТЬ НА НАГОРОДЖЕННЯ, Вручений коїн і прапор, термос, футболка, прапор, срібний коїн"}], "is_medical": true, "_orig_order": 52, "lat": 50.4242113, "lng": 30.4823211}, {"order": 46, "zone": "Київ (місто)", "address": "КНП \"МКЛ №7\"", "people": [{"pib": "МАМЧУР Олег Васильович", "unit": "РР", "date": "5 травня 2026", "tel": "958074159", "diagnoz": "ВТ (17.04.2026) ЗЧМТ. СГМ. АКБТ з перфорацією обох б/п. Множинні ВОСП лівого колінного суглобу з вогнепальним переломомами кісток колінного суглобу з дефектом м'яких тканин. Опік колінного суглобу 1% 2 ст.\nПостравматична нейропатія сідничного нерва лівої нижньої кінцівки.", "amputatsiya": "", "nagorody": "вручили коїн, прапор, термокружка, футболка"}], "is_medical": true, "_orig_order": 53, "lat": 50.4501672, "lng": 30.3539534}, {"order": 47, "zone": "Бровари", "address": "с.м. Бровари, вул. Академіка Амосова, 3", "people": [{"pib": "МИЛИЙ Іван Валерійович", "unit": "АЕМБ РБС", "date": "29/04/26", "tel": "937573592", "diagnoz": "ВТ(18.11.2025), ЗЧМТ. Забій головного мозку? З порушенням функцій зорового аналізатора.АКБ з перфорацією обох барабанних перетинок. ВОСП лівої гомілки з ампутацією в нижній третині Турнікетний синдром лівої гомілки (турнікет в/3 лівої гомілки з 17:45)Множинні дрібні ВОСП правої гомілки.", "amputatsiya": "ампутація лівої нижньої кінцівки", "nagorody": "Відзнака \"За оборону України\";Нагрудний знак МОУ «Знак Пошани»; медаль МОУ \"Хрест Пошани\"; відзнака Командира 95 ОДШБР «За знищення ворога»; Шеврон АЕМБ; Коїн 95 ДШБ та прапор 95 ОДШБр;"}], "is_medical": false, "_orig_order": 56, "lat": 50.4994552, "lng": 30.7667993}, {"order": 48, "zone": "Бровари", "address": "Броварськи р-н с. Калинівка, вул. Шкільна 6, кв. 14.", "people": [{"pib": "НЕТКАЧ Антон Володимирович", "unit": "АЕМБ 2 АЕМР", "date": "25.06.2026 30/04/26", "tel": "730479905", "diagnoz": "вт( 04.01.26р) АКБ з пошкодженням б/п справа. Зчмт. Сгм. Восп 4 пальця лівої кисті.", "amputatsiya": "травма тяжка", "nagorody": "відзнака командира 95 ОДШБр \"Коїн золотий\" та сумку з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 57, "lat": 50.558348, "lng": 30.8248396}, {"order": 49, "zone": "Бровари", "address": "Київська обл. Броварський р-н с. Княжичі вул. Київська 186", "people": [{"pib": "РЕВЕНКО Юрій Федорович", "unit": "АЕМБ 4 АЕМР", "date": "05/05/26", "tel": "503817638", "diagnoz": "ВТ від 27.02.2026. ВОСП лівої вушної раковини з дефектом м'яких тканин. ВОДП правої половини грудної клітки. ВОСП верхньої губи з відкритим переломом верхньої щелепи х дефектом м'яких тканин. Множинні ВОСП правого плеча та передпліччя. Відкритий перелом правої ліктьової кістки. Множинні правого плеча,ьгомілки з відкритим переломом обох кісток правої гомілки. Геморагічний шок 3ст.", "amputatsiya": "травма тяжка", "nagorody": "прапор 95 ОДШПБр, відзнака Командира 95 ОДШПБр «Срібний коїн», термокухоль, футболка"}], "is_medical": false, "_orig_order": 58, "lat": 50.4589158, "lng": 30.8001325}, {"order": 50, "zone": "Бориспіль / схід області", "address": "Київська обл., с. Циблі, ДНП \"Всеукрахнський лікувально-реабілітаційний центр \"Циблі\"", "people": [{"pib": "Лихогра Ігор Олександрович", "unit": "13 ОДШБ 3 ДШР", "date": "16 червня 2026р", "tel": "636427455", "diagnoz": "вт (14.01.26р.) Абт без пошкодження б/п. Зчмт. Сгм Восп правого колінного суглобу. Гемартроз правого колінного суглобу. Обмороження пальців обох стоп та обох кистей 2 ст 3.6%", "amputatsiya": "", "nagorody": "відзнака Командира 95 ОДШПБр \"КОЇН срібний\", прапор 95 ОДШПБр, сумка, термокухоль, футболка"}, {"pib": "Варяник Євген Володимирович", "unit": "1 ДШБ РВП", "date": "6 червня 2026", "tel": "676865260", "diagnoz": "ВТ. ВОСП шиї по задній поверхні з пошкодженням спинного мозку. Тетрапарез.", "amputatsiya": "", "nagorody": "прапор 1 ДШБ, відзнака Командира 95 ОДШБр «Срібний коїн», прапор 95 ОДШБр, термокухоль, футболка 95 ОДШБр"}, {"pib": "ХУДОЛІЙ Антон Володимирович", "unit": "2 ДШБ, 5 ДШР", "date": "17 грудня 2025", "tel": "099 827 8706", "diagnoz": "МВТ(16.10.25) ЗЧМТ? СГМ? закрита травма ГК, множинні переломи ребер справа, ускладнені правобічним пневмотораксом. Закритий перелом н.гілки пр. лонної кістки зі зміщенням.", "amputatsiya": "", "nagorody": "Арибутика 2 ДШБ (прапор, шеврон)"}], "is_medical": true, "_orig_order": 59, "lat": 49.9958981, "lng": 31.5594099}, {"order": 51, "zone": "Бориспіль / схід області", "address": "м. Березань, вул. Героїв Крут, 4", "people": [{"pib": "СИТНІКОВ Володимир Олексійович", "unit": "1 ДШБ 2 ДШР", "date": "6 червня 2026", "tel": "992198806", "diagnoz": "ВТ(15.02.2026). АБТ. ВКСП лівого плеча. Вогнепальний розривний перелом лівої кістки.", "amputatsiya": "", "nagorody": "вручено медаль \"За оборону України\", відзнака командира 95 ОДШБр \"Золотий коїн\" та сумка з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 60, "lat": 50.3134389, "lng": 31.4686329}, {"order": 52, "zone": "Бориспіль / схід області", "address": "КНП \"Бориспільська БЛІЛ\", м. Бориспіль", "people": [{"pib": "АНТОНЕНКО Андрій Борисович", "unit": "1 ДШБ ІСВ", "date": "13 травня 2026", "tel": "", "diagnoz": "ВТ(10.05.26) ВКНП лівої кисті з вогнепальним багатоуламковим переломом проксимальної фаланги І пальця.Укус кліща (праве передпліччя)", "amputatsiya": "", "nagorody": "Шеврон 1 ДШБ, футболка 1 ДШБ"}], "is_medical": true, "_orig_order": 61, "lat": 50.3482, "lng": 30.95615}, {"order": 53, "zone": "Бориспіль / схід області", "address": "Київська обл., с. Семенівка, вул Шевченка 5", "people": [{"pib": "ТРУТЕНЬ Володимир Миколайович", "unit": "2 ДШБ 4 ДШР", "date": "9 червня 2026", "tel": "097 309 82 05", "diagnoz": "ВТ(25.02.2026).АБТ.Інфіковане ВОДП лівого плеча.Хімічний опік обох кистей,внутрішньої поверхні обох стегон -2ст-8% пл.пов.шкіри.Обмороження лівої стопи 3 ст.Обмороження 1п.правоі стопи 3-4 ст,2-5 пп.правоі стопи 2-3ст.Гнійно некротичні рани ділянки надколінника обох нижніх кінцівок.Фізичне виснаження.", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (інформаційний буклет, чашка), адаптивний одяг (верх+низ)\n\nАтрибутика 95 ОДШБр відзнака командира 95 ОДШБр \"Коїн золотий\" та сумка з атрибутикою 95 ОДШБр (футболка, термокухоль, прапор)"}], "is_medical": false, "_orig_order": 62, "lat": 50.2460112, "lng": 31.5105197}, {"order": 54, "zone": "Бориспіль / схід області", "address": "Київська обл., с. Леляки, вул. Вигонська 24", "people": [{"pib": "МАКЕЙ Олександр Олексійович", "unit": "2 ДШБ РВ", "date": "13 травня 2026", "tel": "(066) 599 30 23", "diagnoz": "ВТ(19.03.26)ЗЧМТ.СГМ.АБТ без перфорації б/п. ВОСП задньої поверхні лівого стегна. ВОСП с/3 правої гомілки з вогнепальним багатоуламковим переломом малогомілкової кістки", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (інформаційний буклет)"}], "is_medical": false, "_orig_order": 63, "lat": 50.2342025, "lng": 31.5307237}, {"order": 55, "zone": "Бориспіль / схід області", "address": "Київська обл, Бориспільськийрн., с. Сотниківка вул Травнева 4", "people": [{"pib": "ГОРОВИЙ Роман Володимирович", "unit": "2 ДШБ, 5 ДШР", "date": "14 травня 2026", "tel": "990308746", "diagnoz": "ВТ(18.04.2026). ЗЧМТ. СГМ. АБТ. ВОСП мяких тканин грудноі клітки зліва. ДРІБНІ ВОСП обличчя, лівого плеча, передпліччя, лівого стегна. Наскрізне ВОП лівого гомілково-ступневого суглобу з переломом кісток лівого гомілково-ступневого суглобу. Термічний опік полум'ям лівого плеча-1% пл.пов.шкіри.", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (плакетка, шеврон, інформаційний буклет)"}], "is_medical": false, "_orig_order": 64, "lat": 50.358318, "lng": 31.8344671}, {"order": 56, "zone": "Бориспіль / схід області", "address": "Бориспільський район, с. Пологи-Вергуни, вул. Одиниця 46", "people": [{"pib": "МАЙТОЧКА Вілен Леонідович", "unit": "РРБ", "date": "25 лютого 2026", "tel": "933221109, дружина Ремень Лідія Василівна\n+380937744884", "diagnoz": "ВТ(24.02.2026) ЗЧМТ.СГМ.АКБТ без пошкодження БП. Контузія правого ока, навколоорбітальна гематома. Множинні ВОСП обличчя з дефектом м/тк. ВОСП правого передпліччя з неповною ампутацією на рівні в/3 передпліччя. ВОСП грудної клітки справа. ВОСП живота справа. ВОСП лівої кисті. ВОДП правої гомілки. Накладений турнікет на в/3 правого плеча з 24.02.2026 о 17.25 год. Геморагічний шок І ст..", "amputatsiya": "ампутація", "nagorody": "Вручений коїн, прапор"}], "is_medical": false, "_orig_order": 65, "lat": 50.0037873, "lng": 31.7258887}, {"order": 57, "zone": "Яготин (найдальша східна точка)", "address": "КНП \"ЯЦМЛ м. Яготин.", "people": [{"pib": "НЕДОБОЙ Володимир Сергійович", "unit": "АЕМБ 1аемр", "date": "—", "tel": "501020390", "diagnoz": "У36.2 - Ушкодження внаслідок військових дій, спричинені іншими видами вибухів та уламків Опис діагнозу:\nВТ(27.05.2026). ЗЧМТ. СГМ. АКБТ без перфорації БП. Траншейні стопи.", "amputatsiya": "", "nagorody": ""}], "is_medical": true, "_orig_order": 66, "lat": 50.2568193, "lng": 31.781765}, {"order": 58, "zone": "Вишгород", "address": "Київська обл., м. Вишгород, вул. Ватутіна 13", "people": [{"pib": "ЧЕМАКІН Віталій Миколайович", "unit": "2 ДШБ ІСВ", "date": "2 травня 2026", "tel": "096 322 3564", "diagnoz": "З/ 3-х кісточковий перелом пр. г/с суглобу з підвивихом стопи (від 30.04.2026)", "amputatsiya": "", "nagorody": "Атрибутика 2 ДШБ (інформаційний буклет)"}], "is_medical": false, "_orig_order": 67, "lat": 50.5976838, "lng": 30.4939075}, {"order": 59, "zone": "Ірпінь / Буча / Гостомель", "address": "Київська обл, Бучанський р-н, с. Микулинчі, вул. Покровська 33", "people": [{"pib": "Хоружий Олександр Олександрович", "unit": "13 ОДШБ 1 ДШР", "date": "21 травня 2026р", "tel": "663021418", "diagnoz": "ВТ(26.02.2026) ЗЧМТ. СГМ. АКБТ без пошкодження б/п. ВОДП н/3 лівої гомілки. ВОСП лівої стопи, закритий перелом кісток лівої стопи", "amputatsiya": "", "nagorody": ""}], "is_medical": false, "_orig_order": 68, "lat": 50.5750024, "lng": 30.070693}, {"order": 60, "zone": "Ірпінь / Буча / Гостомель", "address": "в/ч А2923 Київська обл. м. Ірпінь вул. 11-а Лінійна 1", "people": [{"pib": "Ілючок Владислав Миколайович", "unit": "13 ОДШБ рБпС", "date": "16 червня 2026р", "tel": "501875113", "diagnoz": "ВТ(26.04.2026). АБТ. Множинні дрібні ВОСП правого передпліччя та правої кисті. Дрібні множинні восп правої гомілки.Турнікет (по типу венозного джгута 11.00 – знято 14:10).", "amputatsiya": "", "nagorody": ""}, {"pib": "Адамець Валерій Павлович", "unit": "13 ОДШБ 3 ДШР", "date": "13 квітня 2026р", "tel": "687308639", "diagnoz": "ВЛК: Стан після мінно-вибухової травми (29.01.2026): вогнепального поранення правої стопи з розвитком критичної ішемії правої стопи та гомілки, лікованого оперативно: (07.02.2026 ампутація правої нижньої кінцівки на рівні верхньої третини гомілки, 15.02.2026 повторна хірургічна обробка кукси правої гомілки, некректомія, встановлення ВАК-системи на ділянку ампутаційної кукси правої гомілки, 18.02.2026 реампутація правої нижньої кінцівки на рівні верхньої третини гомілки, заміна ВАК-системи, 22.02.2026, 25.02.2026 - повторні хірургічні обробки рани кукси правої гомілки, заміна ВАК-системи, 28.02.2026 - повторна хірургічна обробка кукси правої гомілки, формування кукси верхньої третини правої гомілки), у вигляді відсутності правої нижньої кінцівки на рівні верхньої третини гомілки.\n\nВТ(29.01.2026) ЗЧМТ, АБТ. ВОСП правої стопи, турнікетний синдром правової гомілки та стопи( турнікет с/3 правої гомілки з 29.01.2026).", "amputatsiya": "ампутація", "nagorody": ""}, {"pib": "Гарлінський Євгеній Леонідович", "unit": "13 ОДШБ 2 ДШР", "date": "невідвідували", "tel": "980394812", "diagnoz": "ВТ(25.06.2026) АКБТ без перфорації барабанних перетинок (візуалізація утруднена). ЗЧМТ. СГМ. ВОСП грудної клітки справа. Правобічний пневмоторакс. ВОСП правого передпліччя з вогнепальним переломом ліктьової кістки та пошкодженням ліктьової артерії?( аплікація турнікету 10:45; знято о 13:35) Посттурнікетний синдром. ВОСП лівого передпліччя.", "amputatsiya": "", "nagorody": ""}, {"pib": "БЄДНОВ Максим Олександрович", "unit": "1 ДШБ РБС", "date": "8 травня 2026", "tel": "689852230", "diagnoz": "ВТ (03.04.2026) ЗЧМТ. СГМ. АКБТ без пошкодження барабанних перетинок. ВОСП н/3 лівого стегна з вогнепальним переломом н/3 стегнової кістки.", "amputatsiya": "", "nagorody": "термокружка 95 ОДШБр, футболка 95 ОДШБр, бригадна сумка, термокухоль, футболка."}, {"pib": "ПОЛТАВЦЕВ Богдан Володимирович", "unit": "1 ДШБ ІСВ", "date": "13 травня 2026", "tel": "", "diagnoz": "ВТ(10.05.26)ЗЧМТ.СГМ.АБТ без перфорації б/п. Дрібні ВОСП обличчя. ВОСП обох кистей. ВОСП н/3 лівого стегна.ВОДП с/3 правої гомілки.ВОСП правої стопи з травматичною ампутацією дистальних фаланг І та ІІ пальців та переломом І плюсневої кістки. Укус кліща (праве плече)", "amputatsiya": "", "nagorody": "Шеврон 1 ДШБ, футболка 1 ДШБ"}, {"pib": "ЄВСТРАТЕНКО Олександр Миколайович", "unit": "1 ДШБ 4дшр", "date": "26 квітня 2026", "tel": "", "diagnoz": "Стан після ВТ (24.04.2026): ЗЧМТ, СГМ, АБТ, ВОСП правої лопатки, правого плеча та передпліччя, лівої сідниці та гомілки, забою правого колінного суглоба, лікованої оперативно: (25.04.2026) - ПХО вогнепальних ран, (01.05.2026) - ПовХО вогнепальних ран, видалення уламків з накладанням вторинних швів, у вигляді посттравматичного невриту серединного. променевого, великогомілкового нервів праворуч, з тимчасовим порушенням функції", "amputatsiya": "", "nagorody": "Шеврон 1 ДШБ"}, {"pib": "ЧЕПУРКО Дмитро Вікторович", "unit": "РР", "date": "9 травня 2026", "tel": "509453868", "diagnoz": "ВТ(04.02.26) ЗЧМТ. АБТ. ВОСП правої ключичної ділянки. Стан після видалення стороннього тіла. ВОСП мʼяких тканин лівого стегна, правої гомілки.", "amputatsiya": "", "nagorody": "Вручено: бригадна сумка, термокухоль, футболка"}], "is_medical": false, "_orig_order": 69, "lat": 50.5433856, "lng": 30.2695367}, {"order": 61, "zone": "Ірпінь / Буча / Гостомель", "address": "Київська обл., Бучанський р-н, с-ще Гостомель, д.к. Прогрес, вул. Ягідна 9", "people": [{"pib": "Юрін Олег Олександрович", "unit": "13 ОДШБ 1 ДШР", "date": "9 травня 2026р", "tel": "0635595989 0679722056", "diagnoz": "ВТ(15.01.2026) АКБТ без пошкодження БП. ВОСП правої в/к з травматичною ампутацією правої кисті. Множинні дрібні ВОСП черевної стінки справа. Множинні дрібні ВОСП правого стегна. Геморагічний шок 1 ст.", "amputatsiya": "ампутація", "nagorody": "відзнака Командира 95 ОДШПБр «Срібний коїн»"}], "is_medical": false, "_orig_order": 70, "lat": 50.5801181, "lng": 30.2638902}, {"order": 62, "zone": "Ірпінь / Буча / Гостомель", "address": "у м. Ірпінь, вул. Тургенівська, 57", "people": [{"pib": "КУЧЕРУК Максим Вікторович", "unit": "1 ДШБ 3 ДШР", "date": "29 травня 2026", "tel": "", "diagnoz": "ВТ(26.05.2026).ЗЧМТ.СГМ.АБТ з перфорацією обох барабанних перетинок.ВОДП правоі кисті.ВОСП м'яких тканин ділянки правої лопатки.", "amputatsiya": "", "nagorody": "Шеврон 1 ДШБ, футболка 1 ДШБ"}], "is_medical": false, "_orig_order": 71, "lat": 50.526023, "lng": 30.226631}, {"order": 63, "zone": "Ірпінь / Буча / Гостомель", "address": "с. Горенка, вул Дачна, Бучанський район", "people": [{"pib": "ШЕНЕНКО Ростислав Костянтинович", "unit": "реабатр", "date": "15 березня 2026", "tel": "635195380, 0994471238 дружина Катерина", "diagnoz": "ВТ(12.03.2026) ЗЧМТ.СГМ.АКБТ без пошкодження БП. ВОСП в/3 лівої гомілки з вогнепальним переломом малогомілкової кістки. Пошкодження КЗА лівого гомілково-ступневого суглобу. Гостра постгеморагічна анемія", "amputatsiya": "", "nagorody": "вручений прапор"}], "is_medical": false, "_orig_order": 72, "lat": 50.554667, "lng": 30.297482}, {"order": 64, "zone": "Ірпінь / Буча / Гостомель", "address": "м. Буча вул. Івана кожедуба 3, корп 2, кв 110", "people": [{"pib": "ГРИЦЕНКО Василь Дмитрович", "unit": "САДН", "date": "11 травня 2026", "tel": "0 97 482 3166", "diagnoz": "ВТ(10.05.26)ЗЧМТ.СГМ.АБТ з перфорацією лівої б/п.Тинітус", "amputatsiya": "", "nagorody": "вручили прапор"}], "is_medical": false, "_orig_order": 73, "lat": 50.5473681, "lng": 30.2304637}, {"zone": "Київ (місто)", "address": "м. Київ, вул. Краківська, 13, опіковий центр при 2-й міській лікарні, 4 поверх, 15 палата", "people": [{"pib": "НЕСТЕРЧУК Віталій Олександрович", "unit": "САДН", "date": "5 червня 2026", "tel": "669446587", "diagnoz": "\"ВТ (04.06.2026). ЗЧМТ. СГМ. АБТ. Опік 32% тіла, ступінь 2a обличчя, спини, попереку, правого плеча, обох кистей, обох стегон, лівої гомілки, опік\nверхніх дихальних шляхів, обох рогівок.\"", "amputatsiya": "", "nagorody": ""}], "is_medical": true, "_orig_order": null, "lat": 50.456795, "lng": 30.6237306, "order": 65}], "start": {"lat": 50.3807424, "lng": 30.3833695, "address": "вул. Василя Стуса, 1, Крюківщина, Київська область"}};</script>
+<script>
+(function(){
+  const data = ROUTE_DATA;
+  function nl2br(s){ return String(s).split(String.fromCharCode(10)).join('<br>'); }
+  const START = data.start; // {lat, lng, address}
+  document.getElementById('startlink').href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(START.address);
+
+  function slug(z){ return 'z-' + z.replace(/[^a-zA-Zа-яА-ЯіІїЇєЄ0-9]+/g,'-').toLowerCase(); }
+
+  function mapsUrl(addr){
+    let q = addr;
+    if(!/київ|київська/i.test(q)) q += ", Київська область";
+    return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  }
+
+  function pluralBiets(n){
+    const n10 = n%10, n100 = n%100;
+    if(n10===1 && n100!==11) return 'боєць';
+    if([2,3,4].includes(n10) && ![12,13,14].includes(n100)) return 'бійці';
+    return 'бійців';
+  }
+
+  function escapeHtml(s){
+    if(s===undefined || s===null) return '';
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  // ---- geo helpers ----
+  function haversine(lat1, lng1, lat2, lng2){
+    const R = 6371;
+    const dLat = (lat2-lat1) * Math.PI/180;
+    const dLng = (lng2-lng1) * Math.PI/180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+
+  function nearestNeighborRoute(points, startLat, startLng){
+    const remaining = points.slice();
+    const route = [];
+    let curLat = startLat, curLng = startLng;
+    while(remaining.length){
+      let bestIdx = 0, bestDist = Infinity;
+      for(let i=0;i<remaining.length;i++){
+        const d = haversine(curLat, curLng, remaining[i].lat, remaining[i].lng);
+        if(d < bestDist){ bestDist = d; bestIdx = i; }
+      }
+      const next = remaining.splice(bestIdx,1)[0];
+      route.push(next);
+      curLat = next.lat; curLng = next.lng;
+    }
+    return route;
+  }
+
+  // simple 2-opt refinement (path, fixed start) to reduce crossings
+  function twoOpt(route, startLat, startLng){
+    function pathLen(r){
+      let total = 0, lat = startLat, lng = startLng;
+      for(const p of r){ total += haversine(lat,lng,p.lat,p.lng); lat=p.lat; lng=p.lng; }
+      return total;
+    }
+    let improved = true;
+    let best = route.slice();
+    let bestLen = pathLen(best);
+    let guard = 0;
+    while(improved && guard < 25){
+      improved = false;
+      guard++;
+      for(let i=0;i<best.length-1;i++){
+        for(let j=i+1;j<best.length;j++){
+          const candidate = best.slice(0,i).concat(best.slice(i,j+1).reverse(), best.slice(j+1));
+          const len = pathLen(candidate);
+          if(len < bestLen - 1e-9){
+            best = candidate; bestLen = len; improved = true;
+          }
+        }
+      }
+    }
+    return best;
+  }
+
+  function buildRoute(points, startLat, startLng){
+    if(points.length === 0) return [];
+    const nn = nearestNeighborRoute(points, startLat, startLng);
+    return twoOpt(nn, startLat, startLng);
+  }
+
+  const KYIV_ZONE = 'Київ (місто)';
+
+  function personHasAward(p){
+    return !!(p.nagorody && p.nagorody.trim().length > 0);
+  }
+
+  let awardState = 'all'; // all | with | without
+
+  function applyAwardFilter(stops){
+    if(awardState === 'all') return stops;
+    const want = awardState === 'with';
+    const out = [];
+    for(const s of stops){
+      const filteredPeople = s.people.filter(p => personHasAward(p) === want);
+      if(filteredPeople.length > 0){
+        out.push(Object.assign({}, s, { people: filteredPeople }));
+      }
+    }
+    return out;
+  }
+
+  const MODE_BASE_FILTERS = {
+    full: () => data.stops.slice(),
+    kyivfirst: () => data.stops.slice(),
+    kyivonly: () => data.stops.filter(s => s.zone === KYIV_ZONE),
+    medonly: () => data.stops.filter(s => s.is_medical === true),
+    kyivmed: () => data.stops.filter(s => s.zone === KYIV_ZONE && s.is_medical === true),
+  };
+
+  const MODE_LABELS = {
+    full: 'Уся область',
+    kyivfirst: 'Спочатку Київ, потім область',
+    kyivonly: 'Тільки Київ',
+    medonly: 'Тільки медзаклади',
+    kyivmed: 'Тільки Київ + тільки медзаклади',
+  };
+
+  function computeRouteForMode(modeKey){
+    const base = applyAwardFilter(MODE_BASE_FILTERS[modeKey]());
+
+    if(modeKey === 'kyivfirst'){
+      const kyiv = base.filter(s => s.zone === KYIV_ZONE);
+      const rest = base.filter(s => s.zone !== KYIV_ZONE);
+      const kyivRoute = buildRoute(kyiv, START.lat, START.lng);
+      let lastLat = START.lat, lastLng = START.lng;
+      if(kyivRoute.length){
+        lastLat = kyivRoute[kyivRoute.length-1].lat;
+        lastLng = kyivRoute[kyivRoute.length-1].lng;
+      }
+      const restRoute = buildRoute(rest, lastLat, lastLng);
+      return kyivRoute.concat(restRoute);
+    }
+
+    return buildRoute(base, START.lat, START.lng);
+  }
+
+  let currentMode = 'full';
+
+  function render(modeKey){
+    currentMode = modeKey;
+    const routeStops = computeRouteForMode(modeKey);
+    routeStops.forEach((s,i)=> s._displayOrder = i+1);
+
+    document.getElementById('statStops').textContent = routeStops.length;
+    document.getElementById('statPeople').textContent = routeStops.reduce((a,s)=>a+s.people.length,0);
+    document.getElementById('statZones').textContent = new Set(routeStops.map(s=>s.zone)).size;
+
+    // nav: jump links to first occurrence of each zone, in route order
+    const nav = document.getElementById('zoneNav');
+    nav.innerHTML = '';
+    const seenZones = [];
+    routeStops.forEach(s=>{ if(!seenZones.includes(s.zone)) seenZones.push(s.zone); });
+    seenZones.forEach(z=>{
+      const count = routeStops.filter(s=>s.zone===z).length;
+      const a = document.createElement('a');
+      a.href = '#' + slug(z) + '-' + routeStops.findIndex(s=>s.zone===z);
+      a.textContent = z.split(' (')[0] + ' · ' + count;
+      a.dataset.zone = z;
+      nav.appendChild(a);
+    });
+
+    const main = document.getElementById('main');
+    main.innerHTML = '';
+
+    if(routeStops.length === 0){
+      main.innerHTML = '<p class="empty-note" style="margin-top:40px;text-align:center;">Немає зупинок, що відповідають цьому режиму.</p>';
+      return;
+    }
+
+    routeStops.forEach((stop, idx)=>{
+      const card = document.createElement('div');
+      card.className = 'stop';
+      card.id = slug(stop.zone) + '-' + idx;
+      card.dataset.zone = stop.zone;
+      const url = mapsUrl(stop.address);
+
+      let peopleHtml = stop.people.map((p, pi)=>{
+        const pid = `p-${stop._displayOrder}-${pi}`;
+        const hasAmp = p.amputatsiya && p.amputatsiya.trim().length>0;
+        const ampHtml = hasAmp
+          ? `<span class="amp-badge">Ампутація: ${escapeHtml(p.amputatsiya)}</span>`
+          : `<span class="no-amp">Без ампутації</span>`;
+        const nagorody = p.nagorody && p.nagorody.trim().length>0 ? nl2br(escapeHtml(p.nagorody)) : 'Дані відсутні';
+        return `
+        <div class="person">
+          <div class="person-row">
+            <div>
+              <div class="person-name">${escapeHtml(p.pib)}</div>
+              <div class="person-tags">
+                <span>🪖 ${escapeHtml(p.unit || '—')}</span>
+                <span>🕓 Остання зустріч: ${escapeHtml(p.date)}</span>
+                ${p.tel ? `<span>📞 ${escapeHtml(p.tel)}</span>` : ''}
+              </div>
+            </div>
+            <button class="diag-btn" aria-expanded="false" data-target="${pid}">Діагноз ▾</button>
+          </div>
+          <div class="diag-panel" id="${pid}">
+            <div class="row">
+              <div class="k">Діагноз</div>
+              <div>${nl2br(escapeHtml(p.diagnoz))}</div>
+            </div>
+            <div class="row">
+              <div class="k">Ампутація</div>
+              <div>${ampHtml}</div>
+            </div>
+            <div class="row">
+              <div class="k">Вручені нагороди / примітки</div>
+              <div>${nagorody}</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+      card.innerHTML = `
+        <div class="stop-top">
+          <div class="badge">${stop._displayOrder}</div>
+          <div class="stop-addr-wrap">
+            <div class="zone-chip">${escapeHtml(stop.zone)}</div>
+            <a class="stop-addr" href="${url}" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-7.2 7-12A7 7 0 0 0 5 9c0 4.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+              ${escapeHtml(stop.address)}
+            </a>
+          </div>
+          <div class="count-pill">${stop.people.length} ${pluralBiets(stop.people.length)}</div>
+        </div>
+        <div class="people">${peopleHtml}</div>
+      `;
+      main.appendChild(card);
+    });
+
+    const finish = document.createElement('div');
+    finish.className = 'finish';
+    finish.innerHTML = `<div class="badge">✓</div><h3>Повернення в Крюківщину</h3><p>вул. Василя Стуса, 1 — маршрут завершено.</p>`;
+    main.appendChild(finish);
+  }
+
+  document.getElementById('main').addEventListener('click', function(e){
+    const btn = e.target.closest('.diag-btn');
+    if(!btn) return;
+    const panel = document.getElementById(btn.dataset.target);
+    const open = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true':'false');
+    btn.textContent = open ? 'Діагноз ▴' : 'Діагноз ▾';
+  });
+
+  document.getElementById('modeSwitch').addEventListener('click', function(e){
+    const btn = e.target.closest('.mode-btn');
+    if(!btn) return;
+    document.querySelectorAll('.mode-btn').forEach(b=>{
+      b.classList.remove('active');
+      b.setAttribute('aria-selected','false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected','true');
+    render(btn.dataset.mode);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  document.getElementById('awardBtn').addEventListener('click', function(){
+    const cycle = { all: 'with', with: 'without', without: 'all' };
+    const labels = { all: 'Усі бійці', with: 'Тільки з нагородами', without: 'Тільки без нагород' };
+    awardState = cycle[awardState];
+    this.dataset.state = awardState;
+    this.textContent = labels[awardState];
+    render(currentMode);
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  render('full');
+})();
+</script>
+</body>
+</html>
