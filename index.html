@@ -2,8 +2,9 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Поруч — демо-версія</title>
+<title>Поруч — супровід родин захисників</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +24,7 @@
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme: dark){
+@media not all{
   :root:not([data-theme="light"]){
     --bg:#160A0D; --surface:#221318; --surface-2:#2A1820; --ink:#F3E8E5; --muted:#BBA4A7; --line:#3E2730;
     --maroon:#C2505F; --maroon-ink:#1A0A0D; --maroon-soft:#3A1820; --maroon-line:#5A2632;
@@ -34,7 +35,7 @@
     color-scheme:dark;
   }
 }
-:root[data-theme="dark"]{
+:root[data-theme="__off"]{
   --bg:#160A0D; --surface:#221318; --surface-2:#2A1820; --ink:#F3E8E5; --muted:#BBA4A7; --line:#3E2730;
   --maroon:#C2505F; --maroon-ink:#1A0A0D; --maroon-soft:#3A1820; --maroon-line:#5A2632;
   --rail:#2A0A10; --rail-2:#3A111A; --rail-ink:#F3E4DF; --rail-muted:#B8949A;
@@ -236,6 +237,8 @@ textarea{resize:vertical;min-height:120px;line-height:1.5}
 .req{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:6px 16px;padding:16px 18px 16px 24px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;text-align:left;width:100%;transition:border-color .15s,transform .15s,box-shadow .15s}
 .req::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--bar,var(--line))}
 .req:hover{border-color:var(--maroon-line);box-shadow:0 8px 24px -14px var(--shadow);transform:translateY(-1px)}
+.req > .status{align-self:start;justify-self:end;height:auto}
+@media (max-width:600px){.req{grid-template-columns:1fr!important}.req > .status{justify-self:start;order:-1}}
 .req .meta{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:.85rem;color:var(--muted)}
 .req .ttl{font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .req.b-new{--bar:var(--gold)} .req.b-work{--bar:var(--blue)} .req.b-clarify{--bar:var(--gold)} .req.b-redirected{--bar:var(--violet)} .req.b-done{--bar:var(--ok)}
@@ -714,9 +717,9 @@ mark{background:#F6DF8E;color:inherit;border-radius:3px;padding:0 2px}
 .faq-group.g-safe .faq-head h2{color:#7A1F2B}
 .faq-group.g-care .faq-head::after{background:#3F78AE;width:90px}
 .faq-group.g-care .faq-head h2{color:#2B5785}
-:root[data-theme="dark"] .faq-group.g-money .faq-head h2{color:#74C79D}
-:root[data-theme="dark"] .faq-group.g-care .faq-head h2{color:#8DB3DE}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .faq-group.g-money .faq-head h2{color:#74C79D}:root:not([data-theme="light"]) .faq-group.g-care .faq-head h2{color:#8DB3DE}:root:not([data-theme="light"]) .faq-group.g-safe .faq-head h2{color:#E58C9A}}
+:root[data-theme="__off"] .faq-group.g-money .faq-head h2{color:#74C79D}
+:root[data-theme="__off"] .faq-group.g-care .faq-head h2{color:#8DB3DE}
+@media not all{:root:not([data-theme="light"]) .faq-group.g-money .faq-head h2{color:#74C79D}:root:not([data-theme="light"]) .faq-group.g-care .faq-head h2{color:#8DB3DE}:root:not([data-theme="light"]) .faq-group.g-safe .faq-head h2{color:#E58C9A}}
 .disclaimer{margin-top:28px;font-size:.85rem;color:var(--muted);max-width:70ch}
 .login-wrap{min-height:calc(100vh - 120px);display:grid;place-items:center;padding:24px 0}
 .login{width:min(440px,100%);display:flex;flex-direction:column;gap:16px;padding:34px 30px;border-radius:24px;background:var(--surface);border:1px solid var(--line);box-shadow:0 30px 60px -36px var(--shadow);border-top:5px solid var(--gold)}
@@ -1421,7 +1424,7 @@ function refresh(){
 }
 function renderView(full){
   const v = $('#view');
-  const demoNote = S.demo ? `<p class="demo-note">Демо-версія з прикладами даних. Нічого не зберігається: після оновлення сторінки все повертається до початкового стану. Не вводьте справжні персональні дані.</p>` : '';
+  const demoNote = '';
   if(S.view==='login'){ if(full || !$('#loginForm')){ v.innerHTML = viewLogin(); bindLogin(); } return; }
   if(S.view==='submitted'){ if(full || !$('.done-wrap')){ v.innerHTML = demoNote + viewSubmitted(); bindSubmitted(); } return; }
   if(S.view==='info'){ if(full || !$('#infoQ')) { v.innerHTML = demoNote + viewInfo(); bindInfoSearch(); } return; }
